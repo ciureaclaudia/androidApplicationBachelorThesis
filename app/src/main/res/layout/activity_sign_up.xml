@@ -1,0 +1,209 @@
+<?xml version="1.0" encoding="utf-8"?>
+<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="#A39CF4"
+    tools:context=".SignUp">
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        android:gravity="center"
+        android:background="#A39CF4"
+        android:layout_marginTop="50dp"
+        android:padding="2dp">
+
+        <RelativeLayout
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="40dp"
+            android:layout_marginStart="30dp"
+            android:layout_marginTop="10dp"
+            android:layout_marginEnd="30dp"
+            android:background="@drawable/border">
+
+            <TextView
+                android:id="@+id/signup_id"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="30dp"
+                android:gravity="center"
+                android:text="@string/signup"
+                android:textColor="#27255C"
+                android:textSize="25sp"
+                android:textStyle="bold" />
+
+
+<!--            Nume-->
+            <com.google.android.material.textfield.TextInputLayout
+                android:id="@+id/nume_signupLayout"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="85dp"
+                android:paddingLeft="8dp"
+                android:paddingRight="8dp"
+                android:background="@drawable/border">
+
+                <com.google.android.material.textfield.TextInputEditText
+                    android:id="@+id/nume_signup"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:hint="@string/nume"
+                    android:inputType="textPersonName" />
+            </com.google.android.material.textfield.TextInputLayout>
+
+            <!--            Prenume-->
+            <com.google.android.material.textfield.TextInputLayout
+                android:id="@+id/Prenume_signupLayout"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="3dp"
+                android:layout_below="@+id/nume_signupLayout"
+                android:paddingLeft="8dp"
+                android:paddingRight="8dp"
+                android:background="@drawable/border">
+
+                <com.google.android.material.textfield.TextInputEditText
+                    android:id="@+id/prenume_signup"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:hint="@string/prenume"
+                    android:inputType="textPersonName" />
+            </com.google.android.material.textfield.TextInputLayout>
+
+<!--             Data nastere-->
+            <com.google.android.material.textfield.TextInputLayout
+                android:id="@+id/DataNastere_signupLayout"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="3dp"
+                android:layout_below="@+id/Prenume_signupLayout"
+                android:paddingLeft="8dp"
+                android:paddingRight="8dp"
+                android:background="@drawable/border">
+
+                <com.google.android.material.textfield.TextInputEditText
+                    android:id="@+id/dataNastere_signup"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:hint="@string/data_nastere"
+                    android:inputType="date" />
+            </com.google.android.material.textfield.TextInputLayout>
+<!--            Facultate-->
+            <com.google.android.material.textfield.TextInputLayout
+                android:id="@+id/facultate_signupLayout"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="3dp"
+                android:layout_below="@+id/DataNastere_signupLayout"
+                android:paddingLeft="8dp"
+                android:paddingRight="8dp"
+                android:background="@drawable/border">
+
+                <com.google.android.material.textfield.TextInputEditText
+                    android:id="@+id/facultate_signup"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:hint="@string/facultate"
+                    android:inputType="text" />
+            </com.google.android.material.textfield.TextInputLayout>
+
+
+<!--            Email-->
+            <com.google.android.material.textfield.TextInputLayout
+                android:id="@+id/email_signupLayout"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_below="@+id/facultate_signupLayout"
+                android:layout_marginTop="3dp"
+                android:paddingLeft="8dp"
+                android:paddingRight="8dp"
+                android:background="@drawable/border">
+
+                <com.google.android.material.textfield.TextInputEditText
+                    android:id="@+id/email"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:hint="@string/email"
+                    android:inputType="textEmailAddress" />
+            </com.google.android.material.textfield.TextInputLayout>
+
+<!--            Parola-->
+            <com.google.android.material.textfield.TextInputLayout
+                android:id="@+id/parola_signupLayout"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_below="@+id/email_signupLayout"
+                android:layout_marginTop="3dp"
+                android:paddingLeft="8dp"
+                android:paddingRight="8dp"
+                android:background="@drawable/border">
+
+                <com.google.android.material.textfield.TextInputEditText
+                    android:id="@+id/parola"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:hint="@string/parola"
+                    android:inputType="textPassword" />
+            </com.google.android.material.textfield.TextInputLayout>
+<!--  Confirma parola-->
+            <com.google.android.material.textfield.TextInputLayout
+                android:id="@+id/parola2_signupLayout"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_below="@+id/parola_signupLayout"
+                android:layout_marginTop="3dp"
+                android:paddingLeft="8dp"
+                android:paddingRight="8dp"
+                android:background="@drawable/border">
+
+                <com.google.android.material.textfield.TextInputEditText
+                    android:id="@+id/parola2"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:hint="@string/confirma_parola"
+                    android:inputType="textPassword" />
+            </com.google.android.material.textfield.TextInputLayout>
+
+    <ProgressBar
+        android:id="@+id/progressBar"
+        android:layout_centerHorizontal="true"
+        android:layout_centerVertical="true"
+        android:elevation="10dp"
+        android:visibility="gone"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"/>
+
+
+            <Button
+                android:id="@+id/btn_signup"
+                android:layout_width="250dp"
+                android:layout_height="wrap_content"
+                android:layout_centerHorizontal="true"
+                android:layout_below="@+id/parola2_signupLayout"
+                android:layout_marginTop="11dp"
+                android:text="@string/signup"
+                android:textStyle="normal"
+                android:fontFamily="sans-serif-condensed"
+                android:textSize="20dp"
+                />
+
+    <TextView
+        android:textStyle="italic"
+        android:textSize="15sp"
+        android:gravity="center"
+        android:layout_below="@+id/btn_signup"
+        android:layout_marginTop="10dp"
+      android:layout_marginBottom="15dp"
+
+        android:id="@+id/loginNow"
+        android:text="@string/apasa_pentru_login"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"/>
+
+        </RelativeLayout>
+    </LinearLayout>
+</ScrollView>

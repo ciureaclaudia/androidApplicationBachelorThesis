@@ -1,0 +1,17 @@
+<resources>
+    <string name="app_name">Licenta</string>
+    <string name="login">Login</string>
+    <string name="email">Email</string>
+    <string name="parola">Parola</string>
+    <string name="signup">SignUp</string>
+    <string name="apasa_pentru_login">Ai deja cont? Apasa pentru LogIn</string>
+    <string name="apasa_pentru_signup">Apasa pentru a-ti crea contul</string>
+    <string name="logout">logout</string>
+    <string name="nu_ai_cont_inca">Nu ai cont?</string>
+    <string name="nume">Nume</string>
+    <string name="prenume">Prenume</string>
+    <string name="data_nastere">Data nastere</string>
+    <string name="facultate">Facultate</string>
+    <string name="confirma_parola">Confirma parola</string>
+
+</resources>
