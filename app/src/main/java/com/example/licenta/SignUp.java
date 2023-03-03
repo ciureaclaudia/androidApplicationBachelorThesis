@@ -115,11 +115,11 @@ public class SignUp extends AppCompatActivity {
                     progressBar.setVisibility(View.GONE);
                     ok=0;
             }else if(TextUtils.isEmpty(dataNastere)){
-                try {
-                    Date date=new SimpleDateFormat("dd/mm/yyyy").parse(dataNastere.toString());
-                } catch (ParseException e) {
-                    e.printStackTrace();
-                }
+//                try {
+//                    Date date=new SimpleDateFormat("dd/mm/yyyy").parse(dataNastere.toString());
+//                } catch (ParseException e) {
+//                    e.printStackTrace();
+//                }
                 Toast.makeText(SignUp.this,"Introdu data de nastere" ,Toast.LENGTH_SHORT).show();
                 editTextDataNastere.setError("Date of Birth is required");
                 editTextDataNastere.requestFocus();

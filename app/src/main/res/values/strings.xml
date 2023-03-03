@@ -13,5 +13,7 @@
     <string name="data_nastere">Data nastere</string>
     <string name="facultate">Facultate</string>
     <string name="confirma_parola">Confirma parola</string>
+    <!-- TODO: Remove or change this placeholder text -->
+    <string name="hello_blank_fragment">Hello blank fragment</string>
 
 </resources>
