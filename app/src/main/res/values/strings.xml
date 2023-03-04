@@ -13,7 +13,14 @@
     <string name="data_nastere">Data nastere</string>
     <string name="facultate">Facultate</string>
     <string name="confirma_parola">Confirma parola</string>
+    <string name="open_nav">Open Navigation Drawer</string>
+    <string name="close_nav">Close Navigation Drawer</string>
     <!-- TODO: Remove or change this placeholder text -->
     <string name="hello_blank_fragment">Hello blank fragment</string>
+    <string name="home">Home</string>
+    <string name="harta">Harta</string>
+    <string name="grafic">Grafic</string>
+    <string name="countdown">CountDown</string>
+    <string name="logout_nav">Logout</string>
 
 </resources>
