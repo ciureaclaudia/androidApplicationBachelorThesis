@@ -5,6 +5,7 @@ import androidx.appcompat.app.ActionBarDrawerToggle;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.view.GravityCompat;
 import androidx.drawerlayout.widget.DrawerLayout;
+import androidx.fragment.app.Fragment;
 
 import android.annotation.SuppressLint;
 import android.content.Intent;
@@ -20,8 +21,11 @@ import com.example.licenta.BottomNavigationView.NoteFragment;
 import com.example.licenta.BottomNavigationView.OrarFragment;
 import com.example.licenta.BottomNavigationView.ProfileFragment;
 import com.example.licenta.NavigationDrawer.Countdown;
+import com.example.licenta.NavigationDrawer.CountdownFragment;
 import com.example.licenta.NavigationDrawer.Grafic;
+import com.example.licenta.NavigationDrawer.GraficFragment;
 import com.example.licenta.NavigationDrawer.Harta;
+import com.example.licenta.NavigationDrawer.HartaFragment;
 import com.google.android.material.appbar.MaterialToolbar;
 import com.google.android.material.bottomnavigation.BottomNavigationView;
 import com.google.android.material.navigation.NavigationBarView;
@@ -41,6 +45,9 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
     OrarFragment orarFragment=new OrarFragment();
 
     private DrawerLayout drawerLayout;
+    CountdownFragment countdownFragment=new CountdownFragment();
+    GraficFragment graficFragment=new GraficFragment();
+    HartaFragment hartaFragment =new HartaFragment();
 
 
     @SuppressLint("WrongViewCast")
@@ -118,19 +125,16 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
                 getSupportFragmentManager().beginTransaction().replace(R.id.container,homeFragment).commit(); //replace the container with the home fragment
                 break;
             case R.id.nav_harta:
-                intent=new Intent(getApplicationContext(), Harta.class);
-                startActivity(intent);
-                finish(); //inchid activitatea
+                getSupportFragmentManager().beginTransaction().replace(R.id.container,hartaFragment).commit(); //replace the container with the home fragment
+
                 break;
             case R.id.nav_grafic:
-                intent=new Intent(getApplicationContext(), Grafic.class);
-                startActivity(intent);
-                finish(); //inchid activitatea
+                getSupportFragmentManager().beginTransaction().replace(R.id.container,graficFragment).commit(); //replace the container with the home fragment
+
                 break;
             case R.id.nav_countdown:
-                intent=new Intent(getApplicationContext(), Countdown.class);
-                startActivity(intent);
-                finish(); //inchid activitatea
+                getSupportFragmentManager().beginTransaction().replace(R.id.container,countdownFragment).commit(); //replace the container with the home fragment
+
                 break;
             case R.id.nav_logout:
                 FirebaseAuth.getInstance().signOut();

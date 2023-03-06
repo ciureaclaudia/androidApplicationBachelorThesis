@@ -6,41 +6,56 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:fitsSystemWindows="true"
-    tools:context=".MainActivity"
     tools:openDrawer="start">
 
-    <LinearLayout
+    <RelativeLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
+        tools:context=".MainActivity"
         android:orientation="vertical">
 
-        <com.google.android.material.appbar.MaterialToolbar
-            android:id="@+id/toolbar1"
-            android:layout_width="match_parent"
-            android:layout_height="56dp"
-            android:background="@color/lavander"
-            android:popupTheme="@style/ThemeOverlay.AppCompat.Light"
-            android:theme="@style/ThemeOverlay.AppCompat.Dark.ActionBar" />
 
-        <FrameLayout
-            android:id="@+id/container"
+        <com.google.android.material.appbar.AppBarLayout
+            android:id="@+id/bara_meniuDrawer"
             android:layout_width="match_parent"
-            android:layout_height="match_parent" />
+            android:layout_height="wrap_content">
+
+            <com.google.android.material.appbar.MaterialToolbar
+                android:id="@+id/toolbar1"
+                android:layout_width="match_parent"
+                android:layout_height="?actionBarSize"
+                android:background="@color/lavander"
+                android:popupTheme="@style/ThemeOverlay.AppCompat.Light"
+                android:theme="@style/ThemeOverlay.AppCompat.Dark.ActionBar"
+                app:title="Meniu" />
+
+        </com.google.android.material.appbar.AppBarLayout>
+
 
         <com.google.android.material.bottomnavigation.BottomNavigationView
             android:id="@+id/bottom_navigation"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginBottom="10dp"
+            app:itemTextColor="@color/lavander"
+            android:layout_alignParentBottom="true"
             app:menu="@menu/bottom_nav_menu" />
 
-    </LinearLayout>
+        <FrameLayout
+            android:layout_above="@+id/bottom_navigation"
+            android:id="@+id/container"
+            android:layout_width="match_parent"
+            android:layout_alignParentTop="true"
+            android:layout_height="match_parent" />
+
+    </RelativeLayout>
+
 
     <com.google.android.material.navigation.NavigationView
         android:id="@+id/nav_view"
         android:layout_width="wrap_content"
         android:layout_height="match_parent"
         android:layout_gravity="start"
+        android:outlineSpotShadowColor="@color/lavander"
         android:elevation="4dp"
         app:headerLayout="@layout/nav_header"
         app:itemIconTint="@color/lavander"
