@@ -20,7 +20,30 @@
     <string name="home">Home</string>
     <string name="harta">Harta</string>
     <string name="grafic">Grafic</string>
-    <string name="countdown">CountDown</string>
+    <string name="progres">ToDo</string>
     <string name="logout_nav">Logout</string>
+    <string name="materii">  Materii  </string>
+    <string name="adauga_materie">Adauga materie</string>
+    <string name="adauga_nota">Adauga nota</string>
+    <string name="nume_header">Nume</string>
+    <string name="prenume_header">Prenume</string>
+    <string name="faragraf">Se pare ca nu ai nicio materie introdusa inca!</string>
+    <string name="introdunote">Poti sa introduci materia si notele obtinute aici</string>
+    <string name="tasks">~~To do~~</string>
+    <string name="new_task">new_task</string>
+    <string name="save">save</string>
+
+
+    <string-array name="Week">
+        <item>Luni</item>
+        <item>Marti</item>
+        <item>Miercuri</item>
+        <item>Joi</item>
+        <item>Vineri</item>
+        <item>Sambata</item>
+        <item>Duminica</item>
+
+    </string-array>
+
 
 </resources>

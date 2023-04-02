@@ -9,6 +9,8 @@ import android.text.TextUtils;
 import android.util.Log;
 import android.util.Patterns;
 import android.view.View;
+import android.view.Window;
+import android.view.WindowManager;
 import android.widget.Button;
 import android.widget.ProgressBar;
 import android.widget.TextView;
@@ -65,6 +67,11 @@ public class SignUp extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+
+        requestWindowFeature(Window.FEATURE_NO_TITLE);
+        this.getWindow().setFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN,WindowManager.LayoutParams.FLAG_FULLSCREEN);
+        getSupportActionBar().hide();//hides the action bar
+
         setContentView(R.layout.activity_sign_up);
 
 
@@ -214,6 +221,7 @@ public class SignUp extends AppCompatActivity {
                     userID=mAuth.getCurrentUser().getUid();
                     fStore=FirebaseFirestore.getInstance();
                     DocumentReference documentReference=fStore.collection("users").document(userID);
+
                     //hashmap
                     Map<String ,Object> user= new HashMap<>();
                     user.put("nume",nume);

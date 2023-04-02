@@ -9,6 +9,8 @@ import android.text.TextUtils;
 import android.text.method.HideReturnsTransformationMethod;
 import android.text.method.PasswordTransformationMethod;
 import android.view.View;
+import android.view.Window;
+import android.view.WindowManager;
 import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.ProgressBar;
@@ -32,6 +34,8 @@ public class LogIn extends AppCompatActivity {
     @Override
     public void onStart() {
         super.onStart();
+
+
         FirebaseUser currentUser = mAuth.getCurrentUser();
         //verific daca utilizatoruo este deja loggedIn si daca el este deja deschid activitatea principala
         if(currentUser != null){
@@ -45,6 +49,11 @@ public class LogIn extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+
+        requestWindowFeature(Window.FEATURE_NO_TITLE);
+        this.getWindow().setFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN,WindowManager.LayoutParams.FLAG_FULLSCREEN);
+        getSupportActionBar().hide();//hides the action bar
+
         setContentView(R.layout.activity_log_in);
 
         mAuth=FirebaseAuth.getInstance();//am initializat obiectul

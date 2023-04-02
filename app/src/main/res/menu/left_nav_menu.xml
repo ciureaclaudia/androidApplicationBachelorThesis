@@ -21,9 +21,9 @@
             android:title="@string/grafic" />
 
         <item
-            android:id="@+id/nav_countdown"
+            android:id="@+id/nav_progres"
             android:icon="@drawable/ic_deadline"
-            android:title="@string/countdown" />
+            android:title="@string/progres" />
     </group>
 
     <item android:title="">

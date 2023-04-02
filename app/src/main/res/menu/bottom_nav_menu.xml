@@ -5,21 +5,25 @@
         android:background="#A39CF4"
         android:id="@+id/home"
         android:icon="@drawable/ic_home"
+        android:enabled="true"
         android:title="Home" />
     <item
         android:background="#A39CF4"
         android:id="@+id/profile"
         android:icon="@drawable/ic_profile"
+        android:enabled="true"
         android:title="Profil" />
     <item
         android:background="#A39CF4"
         android:id="@+id/note"
         android:icon="@drawable/ic_note"
+        android:enabled="true"
         android:title="Note" />
     <item
         android:background="#A39CF4"
         android:id="@+id/orar"
         android:icon="@drawable/ic_orar"
+        android:enabled="true"
         android:title="Orar" />
 
 
