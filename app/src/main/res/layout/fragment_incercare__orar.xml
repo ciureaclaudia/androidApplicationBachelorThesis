@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="utf-8"?>
+<GridLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/gridLayout_zileSapt"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:layout_marginTop="65dp"
+    android:columnCount="6"
+    android:rowCount="1"
+    android:orientation="horizontal"
+    tools:context=".BottomNavigationView.OrarFragment.Incercare_OrarFragment">
+
+    <GridLayout
+        android:id="@+id/gridLayout_ore"
+        android:layout_marginTop="65dp"
+        android:columnCount="6"
+        android:orientation="vertical"
+        android:rowCount="24"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content">
+
+
+
+    </GridLayout>
+
+
+</GridLayout>
