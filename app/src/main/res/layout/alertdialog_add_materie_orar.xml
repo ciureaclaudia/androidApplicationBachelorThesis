@@ -1,0 +1,116 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="350dp"
+    android:layout_height="wrap_content"
+    android:orientation="vertical">
+
+    <TextView
+        android:id="@+id/txtTitle"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_margin="20dp"
+        android:gravity="center"
+        android:text="@string/introdu_materie"
+        android:textColor="@color/lavander"
+        android:textSize="27sp"
+        android:textStyle="italic" />
+
+
+    <EditText
+        android:id="@+id/edtMaterie"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="10dp"
+        android:background="@drawable/border"
+        android:hint="denumire materie"
+        android:inputType="text"
+        android:padding="11dp" />
+
+    <Spinner
+        android:id="@+id/spinnerZiSapt"
+        android:layout_width="150dp"
+        android:layout_height="38dp"
+        android:layout_marginStart="4dp"
+        android:layout_marginTop="10dp"
+        android:background="#F6F8FD"
+         />
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="10dp"
+        android:orientation="horizontal">
+
+        <TextView
+            android:id="@+id/txtOraInceput"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="10dp"
+            android:text="Inceput"
+            android:textColor="@color/lavander"
+            android:textSize="19sp"
+            android:textStyle="italic" />
+
+        <TextView
+            android:id="@+id/oraAleasaInceput"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="6dp"
+            android:textColor="#4CAF50"
+            android:textSize="19sp"
+            android:background="#F6F8FD"
+            android:textStyle="italic" />
+
+        <TextView
+            android:id="@+id/txtOraSfarsit"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="80dp"
+            android:text="Sfarsit"
+            android:textColor="@color/lavander"
+            android:textSize="19sp"
+            android:textStyle="italic" />
+
+        <TextView
+            android:id="@+id/oraAleasaSfarsit"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="6dp"
+            android:textColor="#FF5722"
+            android:background="#F6F8FD"
+            android:textSize="19sp"
+            android:textStyle="italic" />
+    </LinearLayout>
+
+
+    <EditText
+        android:id="@+id/edtSala"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="10dp"
+        android:background="@drawable/border"
+        android:hint="sala"
+        android:inputType="text"
+        android:padding="11dp" />
+
+    <EditText
+        android:id="@+id/edtProfesor"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="10dp"
+        android:background="@drawable/border"
+        android:hint="profesor"
+        android:inputType="text"
+        android:padding="11dp" />
+
+    <Button
+        android:id="@+id/btn_saveMaterie"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="120dp"
+        android:layout_marginTop="25dp"
+        android:layout_marginBottom="20dp"
+        android:background="@color/white"
+        android:text="Salveaza"
+        android:textColor="@color/black" />
+</LinearLayout>
