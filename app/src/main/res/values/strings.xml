@@ -33,17 +33,8 @@
     <string name="new_task">new_task</string>
     <string name="save">save</string>
 
-
-    <string-array name="Week">
-        <item>Luni</item>
-        <item>Marti</item>
-        <item>Miercuri</item>
-        <item>Joi</item>
-        <item>Vineri</item>
-        <item>Sambata</item>
-        <item>Duminica</item>
-
-    </string-array>
+    <string name="materie">Materie</string>
+    <string name="introdu_materie">Introdu materie</string>
 
 
 </resources>

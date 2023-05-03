@@ -17,6 +17,7 @@ import android.widget.Toast;
 
 import com.example.licenta.BottomNavigationView.HomeFragment;
 import com.example.licenta.BottomNavigationView.FragmentNote.NoteFragment;
+import com.example.licenta.BottomNavigationView.OrarFragment.NesterRecyclerViewOrar.Incercare2_FragmentOrar;
 import com.example.licenta.BottomNavigationView.OrarFragment.Incercare_OrarFragment;
 import com.example.licenta.BottomNavigationView.OrarFragment.OrarFragment;
 import com.example.licenta.BottomNavigationView.ProfileFragment.ProfileFragment;
@@ -46,6 +47,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
     NoteFragment noteFragment=new NoteFragment();
     OrarFragment orarFragment=new OrarFragment();
     Incercare_OrarFragment incercare_orarFragment=new Incercare_OrarFragment();
+    Incercare2_FragmentOrar incercare2_fragmentOrar=new Incercare2_FragmentOrar();
 
     private DrawerLayout drawerLayout;
     ProgresFragment progresFragment =new ProgresFragment();
@@ -99,7 +101,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
                             getSupportFragmentManager().beginTransaction().replace(R.id.container,noteFragment).addToBackStack(null).commit(); //replace the container with the home fragment
                             return true;
                         case R.id.orar:
-                            getSupportFragmentManager().beginTransaction().replace(R.id.container, incercare_orarFragment).addToBackStack(null).commit(); //replace the container with the home fragment
+                            getSupportFragmentManager().beginTransaction().replace(R.id.container, incercare2_fragmentOrar).addToBackStack(null).commit(); //replace the container with the home fragment
                             return true;
                     }
                     return false;
@@ -122,8 +124,6 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
             textViewEmail.setText(user.getEmail());
 
             //get dao poza
-
-
             FirebaseFirestore db = FirebaseFirestore.getInstance();
             FirebaseAuth mAuth = FirebaseAuth.getInstance();
             String userID = mAuth.getCurrentUser().getUid();
@@ -133,7 +133,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
                documentReference.addSnapshotListener(this, new EventListener<DocumentSnapshot>() {
                    @Override
                    public void onEvent(@Nullable DocumentSnapshot value, @Nullable FirebaseFirestoreException error) {
-                       if(!logout_Click){
+                       if(mAuth.getCurrentUser() !=null){
                            textViewNume.setText(value.getString("nume"));
                            textViewPrenume.setText(value.getString("prenume"));
                        }
@@ -153,13 +153,8 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
                 getSupportFragmentManager().beginTransaction().replace(R.id.container,homeFragment).addToBackStack(null).commit(); //replace the container with the home fragment
                 navigationView.setCheckedItem(R.id.nav_home);
             }
-
         }
-
     }
-
-
-
 
     @Override
     public boolean onNavigationItemSelected(@NonNull MenuItem item) {
@@ -191,7 +186,6 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
                 Toast.makeText(this, "Logout!", Toast.LENGTH_SHORT).show();
                 break;
         }
-
 
 
         drawerLayout.closeDrawer(GravityCompat.START);
