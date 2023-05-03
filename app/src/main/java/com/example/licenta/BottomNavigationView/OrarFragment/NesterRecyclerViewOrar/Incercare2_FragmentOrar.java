@@ -1,6 +1,5 @@
 package com.example.licenta.BottomNavigationView.OrarFragment.NesterRecyclerViewOrar;
 
-import static com.example.licenta.NavigationDrawer.ToDoListProgress.AddNewtask.TAG;
 
 import android.app.AlertDialog;
 import android.app.Dialog;
@@ -206,7 +205,7 @@ public class Incercare2_FragmentOrar extends Fragment implements AdapterView.OnI
                 }
 
                 if (verifCampuri) {
-                    MaterieOrar materieOrar = new MaterieOrar(this.denumire, this.sala, this.profesor, this.ziSapt, this.oraInceput, this.minutIneput, this.oraSfarsit, this.minutSfarsit);
+                    MaterieOrar materieOrar = new MaterieOrar(this.denumire, this.sala, this.profesor, this.ziSapt, String.valueOf(this.oraInceput) ,String.valueOf(this.minutIneput), String.valueOf(oraSfarsit), String.valueOf(this.minutSfarsit));
 
                     switch (this.ziSapt) {
                         case "Luni":
@@ -261,6 +260,8 @@ public class Incercare2_FragmentOrar extends Fragment implements AdapterView.OnI
         return view;
     }
 
+
+    //AlertDialog- de ales ora
     public void popTimePickerInceput(View view) {
         TimePickerDialog.OnTimeSetListener onTimeSetListener = new TimePickerDialog.OnTimeSetListener() {
             @Override
@@ -294,6 +295,8 @@ public class Incercare2_FragmentOrar extends Fragment implements AdapterView.OnI
     }
 
 
+
+    //AlertDialog -spinner de ales zi saptamana
     @Override
     public void onItemSelected(AdapterView<?> adapterView, View view, int position, long id) {
         //cand se selecteaza ceva din spinner

@@ -18,10 +18,9 @@ import android.widget.Toast;
 import com.example.licenta.BottomNavigationView.HomeFragment;
 import com.example.licenta.BottomNavigationView.FragmentNote.NoteFragment;
 import com.example.licenta.BottomNavigationView.OrarFragment.NesterRecyclerViewOrar.Incercare2_FragmentOrar;
-import com.example.licenta.BottomNavigationView.OrarFragment.Incercare_OrarFragment;
-import com.example.licenta.BottomNavigationView.OrarFragment.OrarFragment;
 import com.example.licenta.BottomNavigationView.ProfileFragment.ProfileFragment;
-import com.example.licenta.NavigationDrawer.ToDoListProgress.ProgresFragment;
+import com.example.licenta.NavigationDrawer.ProgresFragment;
+
 import com.example.licenta.NavigationDrawer.GraficFragment;
 import com.example.licenta.NavigationDrawer.HartaFragment;
 import com.google.android.material.appbar.MaterialToolbar;
@@ -45,9 +44,9 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
     HomeFragment homeFragment=new HomeFragment();
     ProfileFragment profileFragment=new ProfileFragment();
     NoteFragment noteFragment=new NoteFragment();
-    OrarFragment orarFragment=new OrarFragment();
-    Incercare_OrarFragment incercare_orarFragment=new Incercare_OrarFragment();
     Incercare2_FragmentOrar incercare2_fragmentOrar=new Incercare2_FragmentOrar();
+
+
 
     private DrawerLayout drawerLayout;
     ProgresFragment progresFragment =new ProgresFragment();

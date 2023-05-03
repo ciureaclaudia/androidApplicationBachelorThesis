@@ -5,7 +5,6 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
@@ -14,32 +13,32 @@ import com.example.licenta.R;
 
 import java.util.List;
 
-public class ChildAdapter extends RecyclerView.Adapter<ChildAdapter.ViewHolder> {
+public class ListaMaterii extends RecyclerView.Adapter<ListaMaterii.ViewHolder> {
 
-    List<MaterieOrar> childModelClassList;
+    List<MaterieOrar> listaMaterii;
     Context context;
 
-    public ChildAdapter(List<MaterieOrar> childModelClassList, Context context) {
-        this.childModelClassList = childModelClassList;
+    public ListaMaterii(List<MaterieOrar> listaMaterii, Context context) {
+        this.listaMaterii = listaMaterii;
         this.context = context;
     }
 
     @NonNull
     @Override
-    public ChildAdapter.ViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
+    public ListaMaterii.ViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
         View view= LayoutInflater.from(context).inflate(R.layout.child_rv_layout_orar,null,false);
         return new ViewHolder(view);
     }
 
     @Override
-    public void onBindViewHolder(@NonNull ChildAdapter.ViewHolder holder, int position) {
+    public void onBindViewHolder(@NonNull ListaMaterii.ViewHolder holder, int position) {
 
 
-        holder.cv_child_item_tv_Materie.setText(childModelClassList.get(position).getDenumire());
-//        holder.cv_child_item_tv_startTime.setText(childModelClassList.get(position).getOraInceput());
-//        holder.cv_child_item_tv_endTime.setText(childModelClassList.get(position).getOraSfarsit());
-        holder.cv_child_item_tv_sala.setText(childModelClassList.get(position).getSala());
-        holder.cv_child_item_tv_profesor.setText(childModelClassList.get(position).getProfesor());
+        holder.cv_child_item_tv_Materie.setText(listaMaterii.get(position).getDenumire());
+        holder.cv_child_item_tv_startTime.setText(listaMaterii.get(position).getOraInceput());
+        holder.cv_child_item_tv_endTime.setText(listaMaterii.get(position).getOraSfarsit());
+        holder.cv_child_item_tv_sala.setText(listaMaterii.get(position).getSala());
+        holder.cv_child_item_tv_profesor.setText(listaMaterii.get(position).getProfesor());
 
         //aici ar trebui setata informatia din CardView
         holder.cv_child_item_tv_Materie.setOnClickListener(view -> {
@@ -49,7 +48,7 @@ public class ChildAdapter extends RecyclerView.Adapter<ChildAdapter.ViewHolder> 
 
     @Override
     public int getItemCount() {
-        return childModelClassList.size();
+        return listaMaterii.size();
     }
 
     public class ViewHolder extends RecyclerView.ViewHolder {

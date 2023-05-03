@@ -5,9 +5,9 @@ public class MaterieOrar {
     private String sala;
     private String profesor;
     private String ziSapt;
-    private int oraInceput,minutIneput, oraSfarsit,minutSfarsit;
+    private String oraInceput,minutIneput, oraSfarsit,minutSfarsit;
 
-    public MaterieOrar(String denumire, String sala, String profesor, String ziSapt, int oraInceput, int minutIneput, int oraSfarsit, int minutSfarsit) {
+    public MaterieOrar(String denumire, String sala, String profesor, String ziSapt, String oraInceput, String minutIneput, String oraSfarsit, String minutSfarsit) {
         this.denumire = denumire;
         this.sala = sala;
         this.profesor = profesor;
@@ -34,19 +34,19 @@ public class MaterieOrar {
         return ziSapt;
     }
 
-    public int getOraInceput() {
+    public String getOraInceput() {
         return oraInceput;
     }
 
-    public int getMinutIneput() {
+    public String getMinutIneput() {
         return minutIneput;
     }
 
-    public int getOraSfarsit() {
+    public String getOraSfarsit() {
         return oraSfarsit;
     }
 
-    public int getMinutSfarsit() {
+    public String getMinutSfarsit() {
         return minutSfarsit;
     }
 }
