@@ -29,4 +29,8 @@ public class ParentModelClass {
         this.weekDay = weekDay;
         this.id=id;
     }
+
+    public String getWeekDay() {
+        return weekDay;
+    }
 }

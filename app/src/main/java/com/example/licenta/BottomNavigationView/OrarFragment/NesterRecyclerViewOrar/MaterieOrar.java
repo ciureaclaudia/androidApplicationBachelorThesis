@@ -5,17 +5,15 @@ public class MaterieOrar {
     private String sala;
     private String profesor;
     private String ziSapt;
-    private String oraInceput,minutIneput, oraSfarsit,minutSfarsit;
+    private String Inceput,Sfarsit;
 
-    public MaterieOrar(String denumire, String sala, String profesor, String ziSapt, String oraInceput, String minutIneput, String oraSfarsit, String minutSfarsit) {
+    public MaterieOrar(String denumire, String sala, String profesor, String ziSapt, String inceput, String sfarsit) {
         this.denumire = denumire;
         this.sala = sala;
         this.profesor = profesor;
         this.ziSapt = ziSapt;
-        this.oraInceput = oraInceput;
-        this.minutIneput = minutIneput;
-        this.oraSfarsit = oraSfarsit;
-        this.minutSfarsit = minutSfarsit;
+        Inceput = inceput;
+        Sfarsit = sfarsit;
     }
 
     public String getDenumire() {
@@ -34,20 +32,12 @@ public class MaterieOrar {
         return ziSapt;
     }
 
-    public String getOraInceput() {
-        return oraInceput;
+    public String getInceput() {
+        return Inceput;
     }
 
-    public String getMinutIneput() {
-        return minutIneput;
-    }
-
-    public String getOraSfarsit() {
-        return oraSfarsit;
-    }
-
-    public String getMinutSfarsit() {
-        return minutSfarsit;
+    public String getSfarsit() {
+        return Sfarsit;
     }
 }
 

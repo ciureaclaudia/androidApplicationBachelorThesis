@@ -34,7 +34,6 @@ import java.util.concurrent.Executor;
 public class ProfileFragment extends Fragment {
 
 
-//    how to insert a profile photo using longclick on a Imageview in a fragment in adroid java? save the picture in the local database, room. Show me how to do it
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {

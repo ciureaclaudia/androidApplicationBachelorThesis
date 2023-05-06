@@ -34,6 +34,9 @@ public class ParentAdapter extends RecyclerView.Adapter<ParentAdapter.ViewHolder
         return new ViewHolder(view);
     }
 
+    //functia asta parcurge hashMapul
+    //preiau cheia si valoarea pt fiecare elem din hashMap
+    //daca idulul este la fel ca positie atunci lista de materii va fi afisata in ziua cu idul corespunzator
     @Override
     public void onBindViewHolder(@NonNull ParentAdapter.ViewHolder holder, int position) {
 
@@ -49,13 +52,14 @@ public class ParentAdapter extends RecyclerView.Adapter<ParentAdapter.ViewHolder
             }
         }
 
+        //aici se vor seta cu zilele sapt fiecare banda reprezentand zi a sapt din orar
         holder.tv_parent_title.setText(parentModelClassCurrentPosition.weekDay);
 
-        ListaMaterii childAdapter = new ListaMaterii(listaObiecteCurente, context);
+        ListaMaterii listaMaterii = new ListaMaterii(listaObiecteCurente, context);
 
         holder.rv_child.setLayoutManager(new LinearLayoutManager(context, LinearLayoutManager.HORIZONTAL, false));
-        holder.rv_child.setAdapter(childAdapter);
-        childAdapter.notifyDataSetChanged();
+        holder.rv_child.setAdapter(listaMaterii);
+        listaMaterii.notifyDataSetChanged();
     }
 
     @Override

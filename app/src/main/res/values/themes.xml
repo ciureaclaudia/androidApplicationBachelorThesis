@@ -20,4 +20,9 @@
         <item name="android:windowSoftInputMode">adjustResize</item>
 
     </style>
+    <style name="CircularDeterminateProgressBar">
+        <item name="android:indeterminateOnly">false</item>
+        <item name="android:progressDrawable">@drawable/cerc</item>
+    </style>
+
 </resources>

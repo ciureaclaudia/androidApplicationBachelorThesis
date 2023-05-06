@@ -35,6 +35,9 @@
 
     <string name="materie">Materie</string>
     <string name="introdu_materie">Introdu materie</string>
+    <string name="data_de_finalizare">Data de finalizare</string>
+    <string name="salveaza">Salveaza</string>
+    <string name="introduce_obiective_de_atins">Introdu obiective de atins!</string>
 
 
 </resources>

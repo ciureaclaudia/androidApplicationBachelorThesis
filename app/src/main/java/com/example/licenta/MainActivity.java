@@ -19,7 +19,7 @@ import com.example.licenta.BottomNavigationView.HomeFragment;
 import com.example.licenta.BottomNavigationView.FragmentNote.NoteFragment;
 import com.example.licenta.BottomNavigationView.OrarFragment.NesterRecyclerViewOrar.Incercare2_FragmentOrar;
 import com.example.licenta.BottomNavigationView.ProfileFragment.ProfileFragment;
-import com.example.licenta.NavigationDrawer.ProgresFragment;
+import com.example.licenta.NavigationDrawer.toDoList.ProgresFragment;
 
 import com.example.licenta.NavigationDrawer.GraficFragment;
 import com.example.licenta.NavigationDrawer.HartaFragment;
@@ -173,6 +173,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
 
                 break;
             case R.id.nav_progres:
+                
                 getSupportFragmentManager().beginTransaction().replace(R.id.container, progresFragment).addToBackStack(null).commit(); //replace the container with the home fragment
 
                 break;
