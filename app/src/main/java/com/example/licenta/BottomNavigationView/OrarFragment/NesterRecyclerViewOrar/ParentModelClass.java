@@ -25,9 +25,19 @@ public class ParentModelClass {
         return Objects.hash(weekDay, id);
     }
 
+    public ParentModelClass(){}
+
     public ParentModelClass(String weekDay, Integer id) {
         this.weekDay = weekDay;
         this.id=id;
+    }
+
+    public void setWeekDay(String weekDay) {
+        this.weekDay = weekDay;
+    }
+
+    public void setId(Integer id) {
+        this.id = id;
     }
 
     public String getWeekDay() {

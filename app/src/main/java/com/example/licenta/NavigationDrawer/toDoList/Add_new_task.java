@@ -3,16 +3,20 @@ package com.example.licenta.NavigationDrawer.toDoList;
 import com.example.licenta.NavigationDrawer.toDoList.Adapter.ToDoAdapter;
 import com.example.licenta.NavigationDrawer.toDoList.Model.ToDoModel;
 import com.example.licenta.R;
+import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.android.material.bottomsheet.BottomSheetDialogFragment;
 
 import android.app.Activity;
 import android.app.DatePickerDialog;
+import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.DialogInterface;
+import android.content.Intent;
 import android.graphics.Color;
 import android.os.Bundle;
 import android.text.Editable;
 import android.text.TextWatcher;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -24,6 +28,7 @@ import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
+import androidx.recyclerview.widget.RecyclerView;
 
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.OnFailureListener;
@@ -33,10 +38,12 @@ import com.google.firebase.firestore.CollectionReference;
 import com.google.firebase.firestore.DocumentReference;
 import com.google.firebase.firestore.FieldValue;
 import com.google.firebase.firestore.FirebaseFirestore;
+import com.google.firebase.firestore.QuerySnapshot;
 
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 public class Add_new_task extends BottomSheetDialogFragment {
@@ -56,10 +63,11 @@ public class Add_new_task extends BottomSheetDialogFragment {
     private String dueDate = "";
     private String id = ""; //pt update task
     private String dueDateUpdate = ""; //pt update task
+//    private ProgresFragment progresFragment;
+
 
     //adaugat
-    ToDoAdapter adapter;
-    ArrayList<ToDoModel> lista;
+    private ToDoAdapter adapter;
 
 
     public static Add_new_task newInstance() {
@@ -84,7 +92,7 @@ public class Add_new_task extends BottomSheetDialogFragment {
         firestore = FirebaseFirestore.getInstance();
         mAuth = FirebaseAuth.getInstance();
         userID = mAuth.getCurrentUser().getUid(); //preaiu ID ul de la user
-        todoTaskRef = firestore.collection("users").document(userID).collection("tasks");
+        todoTaskRef = firestore.collection("users").document(userID).collection("Tasks");
 
 
         boolean isUpdate = false; //check if the user wants to edit the task or save it for the first time
@@ -153,11 +161,6 @@ public class Add_new_task extends BottomSheetDialogFragment {
         });
 
 
-        //adaugat
-        lista = new ArrayList<>();
-        adapter = new ToDoAdapter(this, lista);
-        ToDoModel toDoModel;
-
         boolean finalIsUpdate = isUpdate;
         mSaveBtn.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -188,6 +191,32 @@ public class Add_new_task extends BottomSheetDialogFragment {
                                     public void onComplete(@NonNull Task<DocumentReference> task) {
                                         if (task.isSuccessful()) {
                                             Toast.makeText(context, "Task Saved", Toast.LENGTH_SHORT).show();
+
+
+                                            //dupa ce salvez obiectul in FS , trebuie sa obtin lista actualizata de obiecte
+                                            //si sa setez in adaptorul RecyclerViewului
+                                            //apoi, notific adaptorul ca  s au schimbat datele
+/*
+                                            todoTaskRef.get().addOnSuccessListener(new OnSuccessListener<QuerySnapshot>() {
+                                                @Override
+                                                public void onSuccess(QuerySnapshot queryDocumentSnapshots) {
+                                                    //obtin lista
+                                                    List<ToDoModel> lista=queryDocumentSnapshots.toObjects(ToDoModel.class);
+                                                    progresFragment=new ProgresFragment();
+                                                    adapter =new ToDoAdapter(progresFragment,lista);
+                                                    //Setez lista in adaptor
+                                                    adapter.setList(lista);
+                                                    //notific adaptorul ca s-au schi,bat datele
+                                                    adapter.notifyDataSetChanged();
+                                                }
+                                            }).addOnFailureListener(new OnFailureListener() {
+                                                @Override
+                                                public void onFailure(@NonNull Exception e) {
+                                                    Log.e(TAG,"Eroare in adaugare document",e);
+                                                }
+                                            }); */
+
+
 
                                         } else {
                                             Toast.makeText(context, task.getException().getMessage(), Toast.LENGTH_SHORT).show();

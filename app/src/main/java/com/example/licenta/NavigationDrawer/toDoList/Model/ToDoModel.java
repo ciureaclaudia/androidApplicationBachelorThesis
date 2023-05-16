@@ -5,7 +5,6 @@ public class ToDoModel extends TaskId {
     private String task , due;
     private int status;
 
-
     public String getTask() {
         return this.task;
     }

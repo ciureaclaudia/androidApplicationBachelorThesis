@@ -5,6 +5,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.LinearLayoutManager;
@@ -40,8 +41,10 @@ public class ParentAdapter extends RecyclerView.Adapter<ParentAdapter.ViewHolder
     @Override
     public void onBindViewHolder(@NonNull ParentAdapter.ViewHolder holder, int position) {
 
-        ParentModelClass parentModelClassCurrentPosition = null;
-        ArrayList<MaterieOrar> listaObiecteCurente = null;
+        ParentModelClass parentModelClassCurrentPosition=new ParentModelClass() ;
+        ArrayList<MaterieOrar> listaObiecteCurente =new ArrayList<>() ;
+
+
         for (Map.Entry<ParentModelClass, ArrayList<MaterieOrar>> entry : hashMap.entrySet()) {
             ParentModelClass key = entry.getKey();
             ArrayList<MaterieOrar> value = entry.getValue();
@@ -53,7 +56,13 @@ public class ParentAdapter extends RecyclerView.Adapter<ParentAdapter.ViewHolder
         }
 
         //aici se vor seta cu zilele sapt fiecare banda reprezentand zi a sapt din orar
-        holder.tv_parent_title.setText(parentModelClassCurrentPosition.weekDay);
+        if(parentModelClassCurrentPosition.weekDay != null){
+            holder.tv_parent_title.setText(parentModelClassCurrentPosition.weekDay);
+            Toast.makeText(context, "OK", Toast.LENGTH_SHORT).show(); //apare de 6 ori
+        } else {
+            Toast.makeText(context, "EROARE", Toast.LENGTH_SHORT).show();
+        }
+       
 
         ListaMaterii listaMaterii = new ListaMaterii(listaObiecteCurente, context);
 
@@ -65,6 +74,12 @@ public class ParentAdapter extends RecyclerView.Adapter<ParentAdapter.ViewHolder
     @Override
     public int getItemCount() {
         return hashMap.keySet().size();
+    }
+
+    public void updateData(HashMap<ParentModelClass, ArrayList<MaterieOrar>> newHashMap) {
+        hashMap.clear();
+        hashMap.putAll(newHashMap);
+        notifyDataSetChanged();
     }
 
     public class ViewHolder extends RecyclerView.ViewHolder {

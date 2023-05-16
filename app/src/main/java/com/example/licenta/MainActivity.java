@@ -17,8 +17,10 @@ import android.widget.Toast;
 
 import com.example.licenta.BottomNavigationView.HomeFragment;
 import com.example.licenta.BottomNavigationView.FragmentNote.NoteFragment;
+import com.example.licenta.BottomNavigationView.OrarFragment.NesterRecyclerViewOrar.AOrar;
 import com.example.licenta.BottomNavigationView.OrarFragment.NesterRecyclerViewOrar.Incercare2_FragmentOrar;
 import com.example.licenta.BottomNavigationView.ProfileFragment.ProfileFragment;
+import com.example.licenta.NavigationDrawer.toDoList.AProgres;
 import com.example.licenta.NavigationDrawer.toDoList.ProgresFragment;
 
 import com.example.licenta.NavigationDrawer.GraficFragment;
@@ -47,13 +49,12 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
     Incercare2_FragmentOrar incercare2_fragmentOrar=new Incercare2_FragmentOrar();
 
 
-
     private DrawerLayout drawerLayout;
     ProgresFragment progresFragment =new ProgresFragment();
     GraficFragment graficFragment=new GraficFragment();
     HartaFragment hartaFragment =new HartaFragment();
 
-    boolean logout_Click=false;
+
 
     @SuppressLint("WrongViewCast")
     @Override
@@ -100,7 +101,10 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
                             getSupportFragmentManager().beginTransaction().replace(R.id.container,noteFragment).addToBackStack(null).commit(); //replace the container with the home fragment
                             return true;
                         case R.id.orar:
-                            getSupportFragmentManager().beginTransaction().replace(R.id.container, incercare2_fragmentOrar).addToBackStack(null).commit(); //replace the container with the home fragment
+                            Intent intent = new Intent(MainActivity.this, AOrar.class);
+                            startActivity(intent);
+                            finish();
+//                            getSupportFragmentManager().beginTransaction().replace(R.id.container, incercare2_fragmentOrar).addToBackStack(null).commit(); //replace the container with the home fragment
                             return true;
                     }
                     return false;
@@ -173,12 +177,13 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
 
                 break;
             case R.id.nav_progres:
-                
-                getSupportFragmentManager().beginTransaction().replace(R.id.container, progresFragment).addToBackStack(null).commit(); //replace the container with the home fragment
-
+//                getSupportFragmentManager().beginTransaction().replace(R.id.container, progresFragment).addToBackStack(null).commit(); //replace the container with the home fragment
+                intent = new Intent(this, AProgres.class);
+                startActivity(intent);
+                finish();
                 break;
             case R.id.nav_logout:
-                logout_Click=true;
+
                 FirebaseAuth.getInstance().signOut();
                 intent=new Intent(getApplicationContext(), LogIn.class);
                 startActivity(intent);

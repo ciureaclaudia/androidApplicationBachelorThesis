@@ -47,62 +47,11 @@ public class ListaMaterii extends RecyclerView.Adapter<ListaMaterii.ViewHolder> 
     @Override
     public void onBindViewHolder(@NonNull ListaMaterii.ViewHolder holder, @SuppressLint("RecyclerView") int position) {
 
-        FirebaseFirestore db = FirebaseFirestore.getInstance(); //preaiu instanta de la BD
-        FirebaseAuth mAuth = FirebaseAuth.getInstance();
-        String userID = mAuth.getCurrentUser().getUid(); //preaiu ID ul de la user
-        // Get the Firestore reference for the user's "Orar" collection
-        CollectionReference orarCollection  = db.collection("users").document(userID).collection("Orar"); //preiau referinta ed la colectia ORAR
-
-        // Query the Orar collection to get all documents
-        orarCollection.get().addOnCompleteListener(task -> {
-            if (task.isSuccessful()) {
-                List<String> orarList = new ArrayList<>();
-                for (QueryDocumentSnapshot document : task.getResult()) {
-                    // Get the weekDay field from the document
-                    String weekDay = document.getString("weekDay");
-                    orarList.add(weekDay + ":"); // Add the weekDay to the list
-
-                    // Get the Materii subcollection from the document
-                    CollectionReference materiiRef = document.getReference().collection("Materii");
-
-                    materiiRef.get().addOnCompleteListener(task1 -> {
-                        if (task1.isSuccessful()) {
-                            for (QueryDocumentSnapshot document1 : task1.getResult()) {
-                                // Get the fields from the Materii document
-                                String denumire = document1.getString("denumire");
-                                String sala = document1.getString("sala");
-                                String profesor = document1.getString("profesor");
-                                String ziSapt = document1.getString("ziSapt");
-                                String inceput = document1.getString("inceput");
-                                String sfarsit = document1.getString("sfarsit");
-
-                                // Add the Materii fields to the list
-//                                        orarList.add("- " + denumire + ", " + sala + ", " + profesor + ", " + ziSapt + ", " + inceput + " - " + sfarsit);
-                            }
-
-                            // Show the list on screen
-                            holder.cv_child_item_tv_Materie.setText(listaMaterii.get(position).getDenumire());
-                            holder.cv_child_item_tv_startTime.setText(listaMaterii.get(position).getInceput());
-                            holder.cv_child_item_tv_endTime.setText(listaMaterii.get(position).getSfarsit());
-                            holder.cv_child_item_tv_sala.setText(listaMaterii.get(position).getSala());
-                            holder.cv_child_item_tv_profesor.setText(listaMaterii.get(position).getProfesor());
-
-//                                    textView.setText(TextUtils.join("\n", orarList));
-                        } else {
-                            Log.d(TAG, "Error getting Materii documents: ", task1.getException());
-                        }
-                    });
-                }
-            } else {
-                Log.d(TAG, "Error getting Orar documents: ", task.getException());
-            }
-        });
-
-//        holder.cv_child_item_tv_Materie.setText(listaMaterii.get(position).getDenumire());
-//        holder.cv_child_item_tv_startTime.setText(listaMaterii.get(position).getInceput());
-//        holder.cv_child_item_tv_endTime.setText(listaMaterii.get(position).getSfarsit());
-//        holder.cv_child_item_tv_sala.setText(listaMaterii.get(position).getSala());
-//        holder.cv_child_item_tv_profesor.setText(listaMaterii.get(position).getProfesor());
+        holder.cv_child_item_tv_Materie.setText(listaMaterii.get(position).getDenumire());
+        holder.cv_child_item_tv_startTime.setText(listaMaterii.get(position).getInceput());
+        holder.cv_child_item_tv_endTime.setText(listaMaterii.get(position).getSfarsit());
+        holder.cv_child_item_tv_sala.setText(listaMaterii.get(position).getSala());
+        holder.cv_child_item_tv_profesor.setText(listaMaterii.get(position).getProfesor());
 
         //tin apasat pe denumirea materiei -> sa apara un alert dialog in care sa intrebe daca sa stergi materia
         holder.cv_child_item_tv_Materie.setOnClickListener(view -> {

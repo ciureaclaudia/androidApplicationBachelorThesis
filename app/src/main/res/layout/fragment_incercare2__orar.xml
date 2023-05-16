@@ -3,7 +3,19 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:background="@drawable/frag_graf_faragf_gradient_background"
     tools:context=".BottomNavigationView.OrarFragment.NesterRecyclerViewOrar.Incercare2_FragmentOrar">
+
+    <ImageView
+        android:id="@+id/btn_go_home_orar"
+        android:layout_width="30dp"
+        android:layout_height="30dp"
+        android:layout_marginStart="12dp"
+        android:layout_marginTop="12dp"
+        android:layout_marginEnd="10dp"
+        android:background="@color/lavander"
+        android:layout_marginBottom="10dp"
+        android:src="@drawable/ic_baseline_cancel_presentation_24"/>
 
     <com.google.android.material.floatingactionbutton.FloatingActionButton
         android:id="@+id/add_new_subject_FAB"
@@ -20,7 +32,6 @@
         android:id="@+id/rv_parent_orar"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:background="@drawable/frag_graf_faragf_gradient_background"
         android:layout_marginTop="50dp"
         android:padding="1dp">
 

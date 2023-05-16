@@ -10,12 +10,14 @@ import android.view.ViewGroup;
 import android.widget.CheckBox;
 import android.widget.CompoundButton;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.fragment.app.Fragment;
 import androidx.recyclerview.widget.RecyclerView;
 
 
+import com.example.licenta.NavigationDrawer.toDoList.AProgres;
 import com.example.licenta.NavigationDrawer.toDoList.Add_new_task;
 import com.example.licenta.R;
 import com.google.android.gms.tasks.OnFailureListener;
@@ -30,37 +32,43 @@ import com.example.licenta.NavigationDrawer.toDoList.Model.ToDoModel;
 
 public class ToDoAdapter extends RecyclerView.Adapter<ToDoAdapter.MyViewHolder> {
     private List<ToDoModel> todoList;
-    private Fragment fragmentActivity;
+    private AProgres activity;
+//    private Fragment fragmentActivity;
 
-//    private Context context;
 
     private FirebaseFirestore firestore;
     private FirebaseAuth mAuth;
     String userID;
     CollectionReference todoTaskRef;
 
+    //   constructor pt ProgresFragment
+//    public ToDoAdapter(Fragment fragmentActivity, List<ToDoModel> todoList) {
+//        this.fragmentActivity = fragmentActivity;
+//        this.todoList = todoList;
+//    }
 
-    public ToDoAdapter(Fragment fragmentActivity, List<ToDoModel> todoList) {
-        this.fragmentActivity = fragmentActivity;
+    //constructor pt activitatea AProgres
+    public ToDoAdapter(AProgres activity, List<ToDoModel> todoList) {
+        this.activity=activity;
         this.todoList = todoList;
     }
-
 
 
     @NonNull
     @Override
     public ToDoAdapter.MyViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
-        LayoutInflater inflater = LayoutInflater.from(fragmentActivity.getContext());
+        LayoutInflater inflater = LayoutInflater.from(activity);
 //        View view = LayoutInflater.from(fragmentActivity.getContext()).inflate(R.layout.each_task, parent, false);
         View view = inflater.inflate(R.layout.each_task, parent, false);
+        init();
+        return new ToDoAdapter.MyViewHolder(view);
+    }
 
+    private void init(){
         firestore = FirebaseFirestore.getInstance();
         mAuth = FirebaseAuth.getInstance();
         userID = mAuth.getCurrentUser().getUid(); //preaiu ID ul de la user
-        todoTaskRef = firestore.collection("users").document(userID).collection("tasks");
-
-
-        return new ToDoAdapter.MyViewHolder(view);
+        todoTaskRef = firestore.collection("users").document(userID).collection("Tasks");
     }
 
 
@@ -74,8 +82,8 @@ public class ToDoAdapter extends RecyclerView.Adapter<ToDoAdapter.MyViewHolder> 
         bundle.putString("id", toDoModel.TaskId);
 
         Add_new_task addNewTask = new Add_new_task();
-        addNewTask.setArguments(bundle);
-        addNewTask.show(fragmentActivity.getChildFragmentManager(), addNewTask.getTag());
+        addNewTask.setArguments(bundle); //se incarca obiectul care sa apara in fragment
+        addNewTask.show(activity.getSupportFragmentManager(), addNewTask.getTag()); // sa apara pe ecran
 
 //        notifyItemChanged(position);
         notifyDataSetChanged();
@@ -88,6 +96,7 @@ public class ToDoAdapter extends RecyclerView.Adapter<ToDoAdapter.MyViewHolder> 
                 .addOnSuccessListener(new OnSuccessListener<Void>() {
                     @Override
                     public void onSuccess(Void unused) {
+                        Toast.makeText(getContext(),   "Adapter-sters", Toast.LENGTH_SHORT).show();
                         todoList.remove(position);
                         notifyItemRemoved(position);
                     }
@@ -107,11 +116,15 @@ public class ToDoAdapter extends RecyclerView.Adapter<ToDoAdapter.MyViewHolder> 
                 count++;
             }
         }
-        return ((float) count/ todoList.size())*100;
+        return ((float) count / todoList.size()) * 100;
     }
+// pt fragemnt
+//    public Context getContext() {
+//        return fragmentActivity.getContext();
+//    }
 
     public Context getContext() {
-        return fragmentActivity.getContext();
+        return activity;
     }
 
 
@@ -133,15 +146,14 @@ public class ToDoAdapter extends RecyclerView.Adapter<ToDoAdapter.MyViewHolder> 
                 } else {
                     todoTaskRef.document(toDoModel.TaskId).update("status", 0);
                 }
-
-
             }
         });
-        //notific adaptorul
 
+//        Intent intent=new Intent("update_UI");
+////        intent.putExtra("obiectul_meu",toDoModel);
+//        LocalBroadcastManager.getInstance(getContext()).sendBroadcast(intent);
 
     }
-
 
 
     private boolean toBoolean(int status) {
