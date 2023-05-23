@@ -58,7 +58,7 @@ public class ParentAdapter extends RecyclerView.Adapter<ParentAdapter.ViewHolder
         //aici se vor seta cu zilele sapt fiecare banda reprezentand zi a sapt din orar
         if(parentModelClassCurrentPosition.weekDay != null){
             holder.tv_parent_title.setText(parentModelClassCurrentPosition.weekDay);
-            Toast.makeText(context, "OK", Toast.LENGTH_SHORT).show(); //apare de 6 ori
+//            Toast.makeText(context, "OK", Toast.LENGTH_SHORT).show(); //apare de 6 ori
         } else {
             Toast.makeText(context, "EROARE", Toast.LENGTH_SHORT).show();
         }

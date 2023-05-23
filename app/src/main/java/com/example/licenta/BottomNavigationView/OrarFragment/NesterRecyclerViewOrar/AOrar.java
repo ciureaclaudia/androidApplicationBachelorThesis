@@ -12,7 +12,9 @@ import android.annotation.SuppressLint;
 import android.app.AlertDialog;
 import android.app.Dialog;
 import android.app.TimePickerDialog;
+import android.content.Context;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.text.TextUtils;
 import android.util.Log;
@@ -27,6 +29,7 @@ import android.widget.TextView;
 import android.widget.TimePicker;
 import android.widget.Toast;
 
+import com.example.licenta.BottomNavigationView.FragmentNote.NoteFragment;
 import com.example.licenta.MainActivity;
 import com.example.licenta.NavigationDrawer.toDoList.AProgres;
 import com.example.licenta.NavigationDrawer.toDoList.Model.ToDoModel;
@@ -45,8 +48,14 @@ import com.google.firebase.firestore.ListenerRegistration;
 import com.google.firebase.firestore.Query;
 import com.google.firebase.firestore.QueryDocumentSnapshot;
 import com.google.firebase.firestore.QuerySnapshot;
+import com.google.gson.Gson;
 
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Collections;
+import java.util.Comparator;
+import java.util.Date;
 import java.util.HashMap;
 import java.util.Locale;
 import java.util.Map;
@@ -62,6 +71,7 @@ public class AOrar extends AppCompatActivity implements AdapterView.OnItemSelect
     int minutIneput;
     int oraSfarsit;
     int minutSfarsit;
+    Button save;
 
     TextView txtOraInceput;
     TextView oraAleasaInceput;
@@ -104,7 +114,7 @@ public class AOrar extends AppCompatActivity implements AdapterView.OnItemSelect
             startActivity(intent);
         });
 
-        //apasare pe buton pt a introduce o noua materie in orar
+        //apasare pe FAB pt a introduce o noua materie in orar
         introducereMaterieNouaFAB.setOnClickListener(view1 -> {
             //se deschide o noua fereastra de dialog
             Dialog dialog = new Dialog(this);
@@ -133,7 +143,7 @@ public class AOrar extends AppCompatActivity implements AdapterView.OnItemSelect
             ad.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
             spinner.setAdapter(ad);
 
-            Button save = dialog.findViewById(R.id.btn_saveMaterie);
+            save = dialog.findViewById(R.id.btn_saveMaterie);
             save.setOnClickListener(view2 -> {
 
                 boolean verifCampuri = true;
@@ -184,6 +194,7 @@ public class AOrar extends AppCompatActivity implements AdapterView.OnItemSelect
                 String oraInceputString = String.valueOf(this.oraInceput) + ":" + String.valueOf(this.minutIneput);
                 String oraFinalString = String.valueOf(this.oraSfarsit) + ":" + String.valueOf(this.minutSfarsit);
 
+                //verificare campuri si salvare obiect in BD
                 if (verifCampuri) {
                     MaterieOrar materieOrar = new MaterieOrar(this.denumire, this.sala, this.profesor, this.ziSapt, oraInceputString, oraFinalString);
 
@@ -191,12 +202,14 @@ public class AOrar extends AppCompatActivity implements AdapterView.OnItemSelect
                         case "Luni":
                             ArrayList<MaterieOrar> valoare = hashMap.get(parentModelClassMonday);
                             valoare.add(materieOrar);
+                            sortareListaMaterieOrar(valoare);
                             hashMap.put(parentModelClassMonday, valoare);
                             break;
 
                         case "Marti":
                             ArrayList<MaterieOrar> valoare1 = hashMap.get(parentModelClassTuesday);
                             valoare1.add(materieOrar);
+                            sortareListaMaterieOrar(valoare1);
                             hashMap.put(parentModelClassTuesday, valoare1);
                             break;
 
@@ -204,6 +217,7 @@ public class AOrar extends AppCompatActivity implements AdapterView.OnItemSelect
                         case "Miercuri":
                             ArrayList<MaterieOrar> valoare2 = hashMap.get(parentModelClassWednesday);
                             valoare2.add(materieOrar);
+                            sortareListaMaterieOrar(valoare2);
                             hashMap.put(parentModelClassWednesday, valoare2);
                             break;
 
@@ -211,6 +225,7 @@ public class AOrar extends AppCompatActivity implements AdapterView.OnItemSelect
                         case "Joi":
                             ArrayList<MaterieOrar> valoare3 = hashMap.get(parentModelClassThursday);
                             valoare3.add(materieOrar);
+                            sortareListaMaterieOrar(valoare3);
                             hashMap.put(parentModelClassThursday, valoare3);
                             break;
 
@@ -218,9 +233,11 @@ public class AOrar extends AppCompatActivity implements AdapterView.OnItemSelect
                         case "Vineri":
                             ArrayList<MaterieOrar> valoar4 = hashMap.get(parentModelClassFriday);
                             valoar4.add(materieOrar);
+                            sortareListaMaterieOrar(valoar4);
                             hashMap.put(parentModelClassFriday, valoar4);
                             break;
                     }
+
 
                     saveDatainFireStore(); //SALVEZ IN BD
 
@@ -233,7 +250,21 @@ public class AOrar extends AppCompatActivity implements AdapterView.OnItemSelect
             Toast.makeText(this, "apasat", Toast.LENGTH_SHORT).show();
             dialog.show();
         });
-    }
+
+//        Toast.makeText(this, hashMap.size(), Toast.LENGTH_SHORT).show();
+
+
+//        // Convert the HashMap to a JSON string
+//        String hashMapJson = new Gson().toJson(hashMap);
+//        // Store the JSON string in SharedPreferences
+//        SharedPreferences sharedPreferences = getSharedPreferences("your_pref_name", Context.MODE_PRIVATE);
+//        SharedPreferences.Editor editor = sharedPreferences.edit();
+//        editor.putString("hash_map_key", hashMapJson);
+//        editor.apply();
+
+
+    } //end of OnCreate()
+
     private void init(){
         getSupportActionBar().hide();
         introducereMaterieNouaFAB = findViewById(R.id.add_new_subject_FAB);
@@ -270,15 +301,12 @@ public class AOrar extends AppCompatActivity implements AdapterView.OnItemSelect
     }
 
     public void showData(){
-
-        Toast.makeText(AOrar.this, "APELATA CITIREA", Toast.LENGTH_SHORT).show();
-
+//        Toast.makeText(AOrar.this, "APELATA CITIREA", Toast.LENGTH_SHORT).show();
         orarCollection.get().addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
             @Override
             public void onComplete(@NonNull Task<QuerySnapshot> task) {
                 if (task.isSuccessful()) {
 //                        hashMap = new HashMap<>();
-
                     for (QueryDocumentSnapshot document : task.getResult()) {
                         ParentModelClass parentModelClass = new ParentModelClass();
                         parentModelClass.setId(document.getLong("id").intValue());
@@ -300,6 +328,10 @@ public class AOrar extends AppCompatActivity implements AdapterView.OnItemSelect
                                         materieOrar.setSfarsit(doc.getString("sfarsit"));
                                         materieOrarList.add(materieOrar);
                                     }
+
+                                    sortareListaMaterieOrar(materieOrarList);
+
+                                    //dupa sortarea listei, se introduce lista cu materii in hashmap la ziua corespunzatoare
                                     hashMap.put(parentModelClass, materieOrarList);
 
                                     parentAdapter.notifyDataSetChanged();
@@ -309,7 +341,6 @@ public class AOrar extends AppCompatActivity implements AdapterView.OnItemSelect
                             }
                         });
                     }
-
                     // Update the data source of the parent adapter with the retrieved data
 //                    parentAdapter.updateData(hashMap);
                 } else {
@@ -317,13 +348,31 @@ public class AOrar extends AppCompatActivity implements AdapterView.OnItemSelect
                 }
             }
         });
+    }
 
-
-
+    public void sortareListaMaterieOrar(ArrayList<MaterieOrar> materieOrarList){
+        // Sort the materieOrarList based on the inceput property as time values >sortare dupa ora de inceput
+        Collections.sort(materieOrarList, new Comparator<MaterieOrar>() {
+            @Override
+            public int compare(MaterieOrar o1, MaterieOrar o2) {
+                String inceput1 = o1.getInceput();
+                String inceput2 = o2.getInceput();
+                // Assuming the format is "HH:mm"
+                SimpleDateFormat timeFormat = new SimpleDateFormat("HH:mm");
+                try {
+                    Date time1 = timeFormat.parse(inceput1);
+                    Date time2 = timeFormat.parse(inceput2);
+                    return time1.compareTo(time2);
+                } catch (ParseException e) {
+                    e.printStackTrace();
+                }
+                return 0;
+            }
+        });
     }
 
     public void saveDatainFireStore() {
-        initFireStore();
+//        initFireStore();
 
         //parcurg hashmapul
         for (Map.Entry<ParentModelClass, ArrayList<MaterieOrar>> entry : hashMap.entrySet()) {
@@ -354,6 +403,7 @@ public class AOrar extends AppCompatActivity implements AdapterView.OnItemSelect
                 materiiRef.document(m.getDenumire()).set(materieOrarData);
             }
         }
+
     }
 
 

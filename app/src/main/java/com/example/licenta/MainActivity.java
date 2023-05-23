@@ -15,6 +15,7 @@ import android.view.View;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.example.licenta.BottomNavigationView.FragmentNote.V2.ANote;
 import com.example.licenta.BottomNavigationView.HomeFragment;
 import com.example.licenta.BottomNavigationView.FragmentNote.NoteFragment;
 import com.example.licenta.BottomNavigationView.OrarFragment.NesterRecyclerViewOrar.AOrar;
@@ -98,6 +99,9 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
                             getSupportFragmentManager().beginTransaction().replace(R.id.container,profileFragment).addToBackStack(null).commit(); //replace the container with the home fragment
                             return true;
                         case R.id.note:
+//                            Intent intent1 = new Intent(MainActivity.this, ANote.class);
+//                            startActivity(intent1);
+//                            finish();
                             getSupportFragmentManager().beginTransaction().replace(R.id.container,noteFragment).addToBackStack(null).commit(); //replace the container with the home fragment
                             return true;
                         case R.id.orar:

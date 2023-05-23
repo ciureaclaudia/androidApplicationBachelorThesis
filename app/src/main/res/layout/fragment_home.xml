@@ -6,11 +6,10 @@
     tools:context=".BottomNavigationView.HomeFragment">
 
     <TextView
+        android:id="@+id/mesaj"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="Home Fragment"
-        android:layout_centerInParent="true"/>
-
+        android:text="Welcome back" />
 
 
 </RelativeLayout>

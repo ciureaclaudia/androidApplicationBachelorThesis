@@ -16,19 +16,17 @@
         android:gravity="center"
         android:text="@string/adauga_materie"
         android:textColor="#fff"
-        android:textSize="32sp"
+        android:textSize="30sp"
         android:textStyle="bold" />
 
-
-    <EditText
-        android:id="@+id/edtNameMaterie"
+    <Spinner
+        android:id="@+id/spinner_materie"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginBottom="11dp"
-        android:background="#fff"
-        android:hint="text"
-        android:inputType="text"
-        android:padding="11dp" />
+        android:backgroundTint="@color/lavander"
+        android:layout_marginBottom="10dp"/>
+
+
 
     <LinearLayout
         android:id="@+id/layout_listaNote"
