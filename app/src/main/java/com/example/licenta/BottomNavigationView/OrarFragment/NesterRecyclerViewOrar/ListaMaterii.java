@@ -36,6 +36,7 @@ public class ListaMaterii extends RecyclerView.Adapter<ListaMaterii.ViewHolder> 
         this.context = context;
     }
 
+
     @NonNull
     @Override
     public ListaMaterii.ViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
@@ -84,4 +85,6 @@ public class ListaMaterii extends RecyclerView.Adapter<ListaMaterii.ViewHolder> 
 
         }
     }
+
+
 }

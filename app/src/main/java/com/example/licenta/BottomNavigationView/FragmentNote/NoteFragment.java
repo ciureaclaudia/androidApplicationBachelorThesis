@@ -74,6 +74,14 @@ public class NoteFragment extends Fragment implements  RecyclerViewAdapterMateri
     List<String> listaMateriiOrar = new ArrayList<>(); //lista cu toate materiile
     ArrayAdapter<String> adapter;
 
+    //pt alertDialog
+    Button btn_saveNote;
+    Button btn_add;
+
+    //pt addView in alert dialog-> adauga nota
+    EditText editText;
+    ImageView imageClose;
+
     private boolean isItemSelected = false;
 
     private FirebaseFirestore db;
@@ -86,6 +94,8 @@ public class NoteFragment extends Fragment implements  RecyclerViewAdapterMateri
     String collectionName = "NoteMaterii";
     DocumentReference documentReference;
     CollectionReference colectie;
+
+    Context context;
 
 
     @Override
@@ -104,7 +114,7 @@ public class NoteFragment extends Fragment implements  RecyclerViewAdapterMateri
         recyclerView.setAdapter(adapterMaterii);
         recyclerView.setLayoutManager(new LinearLayoutManager(getContext()));
 
-
+         context = requireContext(); // Use requireContext() in a fragment
         showData(this); //mi se populeaza listaMateriiOrar
 
 
@@ -143,36 +153,16 @@ public class NoteFragment extends Fragment implements  RecyclerViewAdapterMateri
 
 
         btnOpenDialogFAB.setOnClickListener(view1 -> {
-//             showData();
+
             //se deschide AlertDialog
             Dialog dialog = new Dialog(getContext());
             dialog.setContentView(R.layout.alertdialog_add);
 
-            spinner = (Spinner) dialog.findViewById(R.id.spinner_materie);
-            //set adapter pt spinner, the adapter holds the values for the spinner
-//            adapter = new ArrayAdapter<String>(getContext(),
-//                    android.R.layout.simple_spinner_item, listaMateriiOrar);
-            adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
-
-            spinner.setAdapter(adapter);
-            spinner.setOnItemSelectedListener(this);
-
-            Button btn_saveNote = dialog.findViewById(R.id.btn_saveNote);
-            Button btn_add = dialog.findViewById(R.id.btn_add);
-
-            layout_listaNote = dialog.findViewById(R.id.layout_listaNote);
-
-            btn_add.setOnClickListener(view2 -> {
-                addView();
-            });
+            //setare spinner+ adaper + addView
+            alertDialogInput(dialog);
 
             btn_saveNote.setOnClickListener(view2 -> {
                 if (creareListaNote()) {
-
-//                    if (!edtNameMaterie.getText().toString().equals("")) {
-//                        if(spinner.getSelectedItem()){
-
-//                        materie = new Materie(edtNameMaterie.getText().toString(), listaNoteINDIVIDUALA);
 
 //                    setDenumire e setata in metoda onItemSelected
                     materie.setListanote(listaNoteINDIVIDUALA);
@@ -198,23 +188,14 @@ public class NoteFragment extends Fragment implements  RecyclerViewAdapterMateri
                         }
                     });
 
-//                Map<String ,Object> user= new HashMap<>();
-//                user.put("notePeMaterie",materiePreluata.getDenumire());
-//
-//                String key=userRef.document().getId();
-//                userRef.document(key).getId().
-
-
-//                    } else {
-//                        Toast.makeText(getContext(), "Nume materie lipsa!", Toast.LENGTH_SHORT).show();
-//                    }
                 } else {
                     Toast.makeText(getContext(), "Introdu nota!", Toast.LENGTH_SHORT).show();
                 }
                 dialog.dismiss();
 
-
             });
+
+
 
             dialog.show();
         });
@@ -222,35 +203,32 @@ public class NoteFragment extends Fragment implements  RecyclerViewAdapterMateri
         return view;
     }
 
+    private void alertDialogInput(Dialog dialog){
+        spinner = (Spinner) dialog.findViewById(R.id.spinner_materie);
+        //set adapter pt spinner, the adapter holds the values for the spinner
+//            adapter = new ArrayAdapter<String>(getContext(),android.R.layout.simple_spinner_item, listaMateriiOrar);
+        adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
 
-//    @Override
-//    public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
-//        super.onViewCreated(view, savedInstanceState);
-//
-//
-//
-//        // Retrieve the JSON string from SharedPreferences
-//        SharedPreferences sharedPreferences = getActivity().getSharedPreferences("your_pref_name", Context.MODE_PRIVATE);
-//        String hashMapJson = sharedPreferences.getString("hash_map_key", null);
-//        // Convert the JSON string back to a HashMap
-//        hashMap= new Gson().fromJson(hashMapJson, new TypeToken<HashMap<ParentModelClass, ArrayList<MaterieOrar>>>(){}.getType());
-//        // Now you can use yourHashMap
-//        if(hashMap!=null){
-//            for (Map.Entry<ParentModelClass, ArrayList<MaterieOrar>> entry : hashMap.entrySet()) {
-//                ParentModelClass key = entry.getKey(); //KEY - NUME SAPT
-//                ArrayList<MaterieOrar> value = entry.getValue(); //VALUE-LISTA MATERII
-//
-//                for (MaterieOrar m : value) {
-//                    listaMateriiOrar.add(m.getDenumire());
-//                }
-//            }
-//        } else {
-//            Toast.makeText(getContext(), "GOL", Toast.LENGTH_SHORT).show();
-//
-//        }
-//    }
+        spinner.setAdapter(adapter);
+        spinner.setOnItemSelectedListener(this);
+
+        btn_saveNote = dialog.findViewById(R.id.btn_saveNote);
+        btn_add = dialog.findViewById(R.id.btn_add);
+        layout_listaNote = dialog.findViewById(R.id.layout_listaNote);
+
+        btn_add.setOnClickListener(view2 -> {
+            addView();
+        });
+
+    }
 
 
+
+
+
+    //preiau datele introduse in orar si le salvez in:  List<String> listaMateriiOrar
+    // populez lista listaMateriiOrar doar cu denumirile de materii din orar PT SPINNER
+    //am aplicat callback pt ca lista sa aiba timp sa se populeze complet, iar apoi sa se adapteze spinnerul
     public void showData(final DataCallback callback) {
 //        Toast.makeText(getContext(), "INTRA", Toast.LENGTH_SHORT).show();
         orarCollection.get().addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
@@ -312,11 +290,10 @@ public class NoteFragment extends Fragment implements  RecyclerViewAdapterMateri
 
     @Override
     public void onDataLoaded(List<String> listaMateriiOrar) {
-        adapter = new ArrayAdapter<String>(getContext(),
+        adapter = new ArrayAdapter<String>(context,
                 android.R.layout.simple_spinner_item, listaMateriiOrar);
 
     }
-
 
 
 
@@ -330,7 +307,6 @@ public class NoteFragment extends Fragment implements  RecyclerViewAdapterMateri
 
             if (!editTextNota.getText().toString().equals("")) {
                 listaNoteINDIVIDUALA.add(Float.valueOf(editTextNota.getText().toString()));
-
 
             } else {
                 result = false;
@@ -350,8 +326,8 @@ public class NoteFragment extends Fragment implements  RecyclerViewAdapterMateri
 
     private void addView() {
         final View notaview = getLayoutInflater().inflate(R.layout.row_add_nota, null, false);
-        EditText editText = notaview.findViewById(R.id.edit_add_nota);
-        ImageView imageClose = notaview.findViewById(R.id.img_sterge_nota);
+        editText = notaview.findViewById(R.id.edit_add_nota);
+        imageClose = notaview.findViewById(R.id.img_sterge_nota);
 
         imageClose.setOnClickListener(view -> {
             removeView(notaview);
@@ -364,6 +340,7 @@ public class NoteFragment extends Fragment implements  RecyclerViewAdapterMateri
         layout_listaNote.removeView(view);
     }
 
+    /*
     @Override
     public void onEditClick(int position) {
         //------------------------------------------nu merge
@@ -441,10 +418,103 @@ public class NoteFragment extends Fragment implements  RecyclerViewAdapterMateri
 
     }
 
+     */
+
+    @Override
+    public void onEditClick(int position) {
+        if (materii.size() > 0) {
+            if (position >= 0 && position < materii.size()) {
+                materie = materii.get(position);
+                Bundle bundle = new Bundle();
+                bundle.putString("denumire", materie.getDenumire());
+                List<Float> note = materie.getListanote();
+                for (int i = 0; i < note.size(); i++) {
+                    bundle.putString("nota" + i, String.valueOf(note.get(i)));
+                }
+                openEditDialog(bundle);
+            }
+
+        }
+    }
+
+    private void openEditDialog(Bundle bundle) {
+        Dialog dialog = new Dialog(getContext());
+        dialog.setContentView(R.layout.alertdialog_add);
+        alertDialogInput(dialog); //setare spinner+ adapter+ addView
+
+        // selectare spinner
+        String denumire = bundle.getString("denumire");
+        for(int i=0; i<listaMateriiOrar.size();i++) {
+            if(listaMateriiOrar.get(i).equals(denumire)){
+                spinner.setSelection(i);
+            }
+        }
+
+        //setez notele
+        List<Float> note = new ArrayList<>();
+        int index = 0;
+        while (bundle.containsKey("nota" + index)) {
+            note.add(Float.parseFloat(bundle.getString("nota" + index)));
+            index++;
+        }
+
+        // Populate the views with the retrieved data
+        for (Float nota : note) {
+            addView();
+            editText.setText(nota.toString());
+        }
+
+        btn_saveNote.setOnClickListener(view2 -> {
+            if (creareListaNote()) {
+                // Update the data in the corresponding Materie object
+                materie.setListanote(listaNoteINDIVIDUALA);
+                // Update the Materie object in the RecyclerView
+                int editedPosition = materii.indexOf(materie);
+                materii.set(editedPosition, materie);
+                adapterMaterii.notifyItemChanged(editedPosition);
+
+
+                Map<String, Object> updatedData = new HashMap<>();
+                updatedData.put("denumire", materie.getDenumire());
+                updatedData.put("listanote", listaNoteINDIVIDUALA);
+
+
+                String documentId = materie.getId();
+                if (documentId != null && !documentId.isEmpty()) {
+                    DocumentReference elemEditat = colectie.document(materie.getId());
+                    elemEditat
+                            .update(updatedData)
+                            .addOnSuccessListener(new OnSuccessListener<Void>() {
+                                @Override
+                                public void onSuccess(Void aVoid) {
+                                    Toast.makeText(context, "Element updated in Firestore", Toast.LENGTH_SHORT).show();
+                                    dialog.dismiss();
+                                }
+                            })
+                            .addOnFailureListener(new OnFailureListener() {
+                                @Override
+                                public void onFailure(@NonNull Exception e) {
+                                    Toast.makeText(context, "Failed to update element in Firestore", Toast.LENGTH_SHORT).show();
+                                }
+                            });
+
+
+                } else {
+                    // Handle the case when the document ID is null or empty
+                    Toast.makeText(context, "Invalid document ID", Toast.LENGTH_SHORT).show();
+                }
+            } else {
+                Toast.makeText(getContext(), "Introdu nota!", Toast.LENGTH_SHORT).show();
+            }
+            dialog.dismiss();
+        });
+
+        dialog.show();
+    }
+
     @Override
     public void onDeleteClick(int position) {
         if (materii.size() > 0) {
-
             if (position >= 0 && position < materii.size()) {
                 Materie materie = materii.get(position);
                 adapterMaterii.notifyItemRemoved(materii.indexOf(materie));
@@ -455,13 +525,17 @@ public class NoteFragment extends Fragment implements  RecyclerViewAdapterMateri
 
                 //stergere in firestore a materiei din coletie
                 //functie care imi preia notele din BD initilizez instanta FIRESTORE
-                FirebaseFirestore db = FirebaseFirestore.getInstance();
-                FirebaseAuth mAuth = FirebaseAuth.getInstance();
-                String userID = mAuth.getCurrentUser().getUid();
-                String collectionName = "NoteMaterii";
+//                FirebaseFirestore db = FirebaseFirestore.getInstance();
+//                FirebaseAuth mAuth = FirebaseAuth.getInstance();
+//                String userID = mAuth.getCurrentUser().getUid();
 
-                DocumentReference documentReference = db.collection("users").document(userID);
-                CollectionReference colectie = documentReference.collection(collectionName);
+                db = FirebaseFirestore.getInstance(); //preaiu instanta de la BD
+                mAuth = FirebaseAuth.getInstance();
+                userID = mAuth.getCurrentUser().getUid(); //preaiu ID ul de la user
+                // Get the Firestore reference for the user's "Orar" collection
+                documentReference = db.collection("users").document(userID);
+
+                colectie = documentReference.collection("NoteMaterii");
 
                 DocumentReference elemSters = colectie.document(materie.getId());
                 elemSters.delete().addOnSuccessListener(new OnSuccessListener<Void>() {

@@ -42,9 +42,21 @@ public class Materie {
 
     @Override
     public String toString() {
-        return "Materie{" +
-                "denumire='" + denumire + '\'' +
-                ", listanote=" + listanote +
-                '}';
+        StringBuilder stringBuilder = new StringBuilder();
+        stringBuilder.append("Materie{");
+        stringBuilder.append("denumire='").append(denumire).append('\'');
+        stringBuilder.append(", listanote=");
+
+        // Iterate over each element in the list and append it to the string
+        for (int i = 0; i < listanote.size(); i++) {
+            if (i > 0) {
+                stringBuilder.append(", ");
+            }
+            stringBuilder.append(listanote.get(i));
+        }
+
+        stringBuilder.append('}');
+        return stringBuilder.toString();
     }
+
 }

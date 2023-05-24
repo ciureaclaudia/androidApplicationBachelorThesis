@@ -19,6 +19,7 @@ import androidx.recyclerview.widget.RecyclerView;
 import com.example.licenta.R;
 
 import java.util.ArrayList;
+import java.util.List;
 
 public class RecyclerViewAdapterMaterii extends RecyclerView.Adapter<RecyclerViewAdapterMaterii.MyViewHolder> {
 
@@ -44,8 +45,16 @@ public class RecyclerViewAdapterMaterii extends RecyclerView.Adapter<RecyclerVie
     @Override
     public void onBindViewHolder(@NonNull RecyclerViewAdapterMaterii.MyViewHolder holder, int position) {
         holder.txt_materie.setText(materii.get(position).getDenumire());
-        holder.txt_note.setText(materii.get(position).getListanote().toString());
 
+        List<Float> listanote = materii.get(position).getListanote();
+
+        StringBuilder noteStringuri = new StringBuilder();
+        for (Float i : listanote) {
+            noteStringuri.append(i).append("   ");
+        }
+        holder.txt_note.setText(noteStringuri.toString().trim());
+
+//        holder.txt_note.setText(materii.get(position).getListanote().toString());
         holder.txt_option.setOnClickListener(view -> {
             //aici se va deschide un meniu, alertDialog
             PopupMenu popupMenu=new PopupMenu(this.context,holder.txt_option);
