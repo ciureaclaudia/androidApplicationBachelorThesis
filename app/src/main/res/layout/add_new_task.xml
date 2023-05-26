@@ -6,24 +6,98 @@
     android:layout_height="match_parent"
     tools:context=".MainActivity">
 
+    <Spinner
+    android:id="@+id/spinner_materii_toDo"
+    android:layout_width="wrap_content"
+    android:layout_height="wrap_content"
+        android:layout_marginTop="25dp"
+    android:layout_marginBottom="20dp"
+        android:layout_marginStart="10dp"
+    android:backgroundTint="@color/lavander"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.0"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"/>
+
+    <LinearLayout
+        android:id="@+id/layout"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="30dp"
+        android:orientation="horizontal"
+        android:layout_marginStart="10dp"
+
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.0"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="@id/spinner_materii_toDo">
+
+        <TextView
+            android:id="@+id/tv_dificultate"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:text="Dificultate: " />
+
+        <RadioGroup
+            android:id="@+id/radioGroup"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            tools:ignore="MissingConstraints"
+            tools:layout_editor_absoluteX="-16dp"
+            tools:layout_editor_absoluteY="135dp">
+
+            <RadioButton
+                android:id="@+id/radioButton1_usor"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="10dp"
+                android:textColor="@color/lavander"
+                android:text="usor" />
+
+            <RadioButton
+                android:id="@+id/radioButton2_mediu"
+                android:layout_width="wrap_content"
+                android:layout_height="match_parent"
+                android:layout_marginStart="10dp"
+                android:textColor="@color/lavander"
+                android:text="mediu" />
+
+            <RadioButton
+                android:id="@+id/radioButton3_dificil"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="10dp"
+                android:layout_marginEnd="6dp"
+                android:textColor="@color/lavander"
+                android:text="dificil" />
+
+        </RadioGroup>
+
+
+    </LinearLayout>
+
     <EditText
         android:id="@+id/task_edittext"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_margin="10dp"
+        android:layout_marginStart="10dp"
+        android:layout_marginEnd="13dp"
+        android:layout_marginTop="40dp"
         android:backgroundTint="@color/lavander"
         android:hint="Scrie aici ...."
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.5"
+        app:layout_constraintHorizontal_bias="0.494"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
+        app:layout_constraintTop_toTopOf="@id/layout" />
 
     <TextView
         android:id="@+id/set_due_tv"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginStart="12dp"
-        android:layout_marginTop="8dp"
+        android:layout_marginStart="10dp"
+        android:layout_marginTop="12dp"
         android:drawableRight="@drawable/ic_baseline_calendar_today_24"
         android:drawablePadding="8dp"
         android:text="@string/data_de_finalizare"
@@ -36,10 +110,11 @@
         android:id="@+id/save_btn"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginTop="8dp"
-        android:layout_marginEnd="8dp"
+        android:layout_marginTop="7dp"
+        android:layout_marginEnd="13dp"
         android:text="@string/salveaza"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/task_edittext" />
+
 
 </androidx.constraintlayout.widget.ConstraintLayout>

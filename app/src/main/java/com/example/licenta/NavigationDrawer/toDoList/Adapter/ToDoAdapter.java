@@ -13,6 +13,7 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import androidx.annotation.NonNull;
+import androidx.core.content.ContextCompat;
 import androidx.fragment.app.Fragment;
 import androidx.recyclerview.widget.RecyclerView;
 
@@ -49,7 +50,7 @@ public class ToDoAdapter extends RecyclerView.Adapter<ToDoAdapter.MyViewHolder> 
 
     //constructor pt activitatea AProgres
     public ToDoAdapter(AProgres activity, List<ToDoModel> todoList) {
-        this.activity=activity;
+        this.activity = activity;
         this.todoList = todoList;
     }
 
@@ -64,7 +65,7 @@ public class ToDoAdapter extends RecyclerView.Adapter<ToDoAdapter.MyViewHolder> 
         return new ToDoAdapter.MyViewHolder(view);
     }
 
-    private void init(){
+    private void init() {
         firestore = FirebaseFirestore.getInstance();
         mAuth = FirebaseAuth.getInstance();
         userID = mAuth.getCurrentUser().getUid(); //preaiu ID ul de la user
@@ -80,6 +81,8 @@ public class ToDoAdapter extends RecyclerView.Adapter<ToDoAdapter.MyViewHolder> 
         bundle.putString("task", toDoModel.getTask());
         bundle.putString("due", toDoModel.getDue());
         bundle.putString("id", toDoModel.TaskId);
+        bundle.putString("dificultate", String.valueOf(toDoModel.getDificultate()));
+        bundle.putString("materie", toDoModel.getMaterie());
 
         Add_new_task addNewTask = new Add_new_task();
         addNewTask.setArguments(bundle); //se incarca obiectul care sa apara in fragment
@@ -96,7 +99,7 @@ public class ToDoAdapter extends RecyclerView.Adapter<ToDoAdapter.MyViewHolder> 
                 .addOnSuccessListener(new OnSuccessListener<Void>() {
                     @Override
                     public void onSuccess(Void unused) {
-                        Toast.makeText(getContext(),   "Adapter-sters", Toast.LENGTH_SHORT).show();
+                        Toast.makeText(getContext(), "Adapter-sters", Toast.LENGTH_SHORT).show();
                         todoList.remove(position);
                         notifyItemRemoved(position);
                     }
@@ -136,8 +139,26 @@ public class ToDoAdapter extends RecyclerView.Adapter<ToDoAdapter.MyViewHolder> 
 
         holder.mDueDateTv.setText("Due On " + toDoModel.getDue());
 
-        holder.mCheckBox.setChecked(toBoolean(toDoModel.getStatus()));
+        holder.tv_materie.setText(toDoModel.getMaterie());
 
+        if (toDoModel.getDificultate() == 1) {
+            holder.tv_dificultate.setText("usor");
+            holder.tv_dificultate.setBackgroundColor(ContextCompat.getColor(getContext(), R.color.greenn));
+            holder.tv_dificultate.setTextColor(ContextCompat.getColor(getContext(), R.color.lavander));
+        } else if (toDoModel.getDificultate() == 2) {
+            holder.tv_dificultate.setText("mediu");
+            holder.tv_dificultate.setBackgroundColor(ContextCompat.getColor(getContext(), R.color.yellow));
+            holder.tv_dificultate.setTextColor(ContextCompat.getColor(getContext(), R.color.lavander));
+
+        } else if (toDoModel.getDificultate() == 3) {
+            holder.tv_dificultate.setText("dificil");
+            holder.tv_dificultate.setBackgroundColor(ContextCompat.getColor(getContext(), R.color.red));
+            holder.tv_dificultate.setTextColor(ContextCompat.getColor(getContext(), R.color.lavander));
+
+        }
+
+
+        holder.mCheckBox.setChecked(toBoolean(toDoModel.getStatus()));
         holder.mCheckBox.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
             @Override
             public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
@@ -169,12 +190,16 @@ public class ToDoAdapter extends RecyclerView.Adapter<ToDoAdapter.MyViewHolder> 
 
         TextView mDueDateTv;
         CheckBox mCheckBox;
+        TextView tv_materie;
+        TextView tv_dificultate;
 
         public MyViewHolder(@NonNull View itemView) {
             super(itemView);
 
             mDueDateTv = itemView.findViewById(R.id.due_date_tv);
             mCheckBox = itemView.findViewById(R.id.mcheckbox);
+            tv_materie = itemView.findViewById(R.id.tv_materie);
+            tv_dificultate = itemView.findViewById(R.id.tv_dificultate);
 
         }
     }

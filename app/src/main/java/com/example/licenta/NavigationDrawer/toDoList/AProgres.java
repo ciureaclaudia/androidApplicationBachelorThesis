@@ -61,6 +61,8 @@ public class AProgres extends AppCompatActivity implements OnDialogCloseListener
     private ImageView go_to_home;
     private ImageView arrowUp;
     private ImageView arrowDown;
+    private ImageView im_easy;
+    private ImageView im_hard;
     private ProgressBar progressBar;
     private TextView textViewProgress;
 
@@ -91,6 +93,8 @@ public class AProgres extends AppCompatActivity implements OnDialogCloseListener
         Toast.makeText(this, "PRESHOW", Toast.LENGTH_SHORT).show();
         recyclerView.setAdapter(adapter);
         showData();
+
+
         check_box_graf.setOnClickListener(view1 -> {
             int procent = (int) adapter.getCountCheckBox();
             Dialog dialog = new Dialog(this);
@@ -125,6 +129,21 @@ public class AProgres extends AppCompatActivity implements OnDialogCloseListener
             finish();
             startActivity(intent);
         });
+
+        im_easy=findViewById(R.id.im_easy);
+        im_easy.setOnClickListener(view -> {
+            // sortare dupa cel mai usor cel mai greu
+
+            sorteazaCelMaiUsorCelMaiGreu();
+
+
+        });
+
+        im_hard=findViewById(R.id.im_hard);
+        im_hard.setOnClickListener(view -> {
+            // sortare dupa cel mai greu cel mai usor
+            sorteazaCelMaiGreurCelMaiUsor();
+        });
     }
 
     private void sortListAscending() {
@@ -149,12 +168,31 @@ public class AProgres extends AppCompatActivity implements OnDialogCloseListener
         adapter.notifyDataSetChanged();
     }
 
-    private boolean isDateToday(String dateString) {
-        SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd"); // Adjust the date format according to your string representation
-        String todayDate = dateFormat.format(new Date());
+    private void sorteazaCelMaiUsorCelMaiGreu(){
+        Collections.sort(mList, new Comparator<ToDoModel>() {
+            @Override
+            public int compare(ToDoModel o1, ToDoModel o2) {
+                // Compare the 'dificultate' values
+                return Integer.compare(o1.getDificultate(), o2.getDificultate());
+            }
+        });
+        adapter.notifyDataSetChanged();
 
-        return dateString.equals(todayDate);
     }
+
+    private void sorteazaCelMaiGreurCelMaiUsor(){
+        Collections.sort(mList, new Comparator<ToDoModel>() {
+            @Override
+            public int compare(ToDoModel o1, ToDoModel o2) {
+                // Compare the 'dificultate' values
+                return Integer.compare(o2.getDificultate(), o1.getDificultate());
+            }
+        });
+        adapter.notifyDataSetChanged();
+
+    }
+
+
 
     public void showData(){
         Toast.makeText(AProgres.this, "APELATA CITIREA", Toast.LENGTH_SHORT).show();
@@ -167,7 +205,6 @@ public class AProgres extends AppCompatActivity implements OnDialogCloseListener
                     if(documentChange.getType()==DocumentChange.Type.ADDED){
                         String id=documentChange.getDocument().getId();
                         ToDoModel toDoModel=documentChange.getDocument().toObject(ToDoModel.class).withId(id);
-
 
                         mList.add(toDoModel);
                         adapter.notifyDataSetChanged();

@@ -25,4 +25,15 @@
         <item name="android:progressDrawable">@drawable/cerc</item>
     </style>
 
+    <style name="CoolWelcomeTextStyle">
+        <item name="android:textColor">#6B6CE6</item> <!-- Change text color to a vibrant pink -->
+        <item name="android:textSize">24sp</item> <!-- Change text size to 24sp -->
+        <item name="android:textStyle">bold</item> <!-- Set text style to bold -->
+        <item name="android:shadowColor">#fffafa</item> <!-- Add a semi-transparent black shadow -->
+        <item name="android:shadowDx">10</item> <!-- Set horizontal shadow offset -->
+        <item name="android:shadowDy">10</item> <!-- Set vertical shadow offset -->
+        <item name="android:shadowRadius">10</item> <!-- Set shadow blur radius -->
+    </style>
+
+
 </resources>

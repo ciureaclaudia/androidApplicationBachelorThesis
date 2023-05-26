@@ -1,5 +1,10 @@
 package com.example.licenta.NavigationDrawer.toDoList;
 
+import static android.content.ContentValues.TAG;
+
+import com.example.licenta.BottomNavigationView.FragmentNote.DataCallback;
+import com.example.licenta.BottomNavigationView.FragmentNote.Materie;
+import com.example.licenta.BottomNavigationView.OrarFragment.NesterRecyclerViewOrar.MaterieOrar;
 import com.example.licenta.NavigationDrawer.toDoList.Adapter.ToDoAdapter;
 import com.example.licenta.NavigationDrawer.toDoList.Model.ToDoModel;
 import com.example.licenta.R;
@@ -20,9 +25,14 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.AdapterView;
+import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.DatePicker;
 import android.widget.EditText;
+import android.widget.RadioButton;
+import android.widget.RadioGroup;
+import android.widget.Spinner;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -38,6 +48,7 @@ import com.google.firebase.firestore.CollectionReference;
 import com.google.firebase.firestore.DocumentReference;
 import com.google.firebase.firestore.FieldValue;
 import com.google.firebase.firestore.FirebaseFirestore;
+import com.google.firebase.firestore.QueryDocumentSnapshot;
 import com.google.firebase.firestore.QuerySnapshot;
 
 import java.util.ArrayList;
@@ -46,28 +57,41 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-public class Add_new_task extends BottomSheetDialogFragment {
+public class Add_new_task extends BottomSheetDialogFragment implements AdapterView.OnItemSelectedListener {
     public static final String TAG = "AddNewTask";
 
     private TextView setDueDate;
     private EditText mTaskEdit;
     private Button mSaveBtn;
 
+    //nou
+    private RadioGroup radioGroupDificultate;
+    private RadioButton radioButton1_usor;
+    private RadioButton radioButton2_mediu;
+    private RadioButton radioButton3_dificil;
+    private Spinner spinnerMaterii;
+    List<String> listaMateriiOrar = new ArrayList<>(); //lista cu toate materiile
+    ArrayAdapter<String> adapter;
+    private boolean isItemSelected = false;
+
+
     private FirebaseFirestore firestore;
     private FirebaseAuth mAuth;
     private String userID;
     private CollectionReference todoTaskRef;
+    private CollectionReference orarCollection;
 
     private Context context;
 
     private String dueDate = "";
     private String id = ""; //pt update task
     private String dueDateUpdate = ""; //pt update task
+    private String materieDenumire;
+    private int dificultate=1; //1-usor, 2-mediu, 3-dificil
+    private int dificultateUpdate;
+
 //    private ProgresFragment progresFragment;
 
-
-    //adaugat
-    private ToDoAdapter adapter;
 
 
     public static Add_new_task newInstance() {
@@ -81,6 +105,40 @@ public class Add_new_task extends BottomSheetDialogFragment {
 
     }
 
+    //preiau datele introduse in orar si le salvez in:  List<String> listaMateriiOrar
+    // populez lista listaMateriiOrar doar cu denumirile de materii din orar PT SPINNER
+    public void showData() {
+        orarCollection.get().addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
+            @Override
+            public void onComplete(@NonNull Task<QuerySnapshot> task) {
+                if (task.isSuccessful()) {
+                    for (QueryDocumentSnapshot document : task.getResult()) {
+                        CollectionReference materiiRef = document.getReference().collection("Materii");
+                        materiiRef.get().addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
+                            @Override
+                            public void onComplete(@NonNull Task<QuerySnapshot> task) {
+                                if (task.isSuccessful()) {
+                                    for (QueryDocumentSnapshot doc : task.getResult()) {
+                                        MaterieOrar materieOrar = doc.toObject(MaterieOrar.class);
+                                        listaMateriiOrar.add(materieOrar.getDenumire()); //populez lista mea de denumiri de materii cu denumirile preluate din bd
+                                    }
+                                    adapter.notifyDataSetChanged();
+                                } else {
+                                    Toast.makeText(getContext(), "Eroare", Toast.LENGTH_SHORT).show();
+                                    Log.e(TAG, "Error getting documents: ", task.getException());
+                                }
+                            }
+                        });
+                    }
+//                    callback.onDataLoaded(listaMateriiOrar);
+                } else {
+                    Log.e(TAG, "Error getting documents: ", task.getException());
+                }
+            }
+        });
+
+    }
+
     @Override
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
@@ -89,10 +147,43 @@ public class Add_new_task extends BottomSheetDialogFragment {
         mTaskEdit = view.findViewById(R.id.task_edittext);
         mSaveBtn = view.findViewById(R.id.save_btn);
 
+        //nou
+        spinnerMaterii=view.findViewById(R.id.spinner_materii_toDo);
+        radioGroupDificultate=view.findViewById(R.id.radioGroup);
+        radioButton1_usor = view.findViewById(R.id.radioButton1_usor);
+        radioButton2_mediu=view.findViewById(R.id.radioButton2_mediu);
+        radioButton3_dificil=view.findViewById(R.id.radioButton3_dificil);
+
+
+        //---------------------RADIO BUTTON
+
+        radioGroupDificultate.setOnCheckedChangeListener((radioGroup, checkedId) -> {
+            RadioButton radioButton = view.findViewById(checkedId);
+//                Toast.makeText(getContext(), "Selected option: " + radioButton.getText(), Toast.LENGTH_SHORT).show();
+            if(radioButton.getText().equals("usor")) {
+                dificultate=1;
+            } else if(radioButton.getText().equals("mediu"))
+                dificultate=2;
+            else dificultate=3;
+            Toast.makeText(getContext(), "Selected option: " + dificultate, Toast.LENGTH_SHORT).show();
+        });
+
+
+
+        //---------------------SPINNER MATERII
         firestore = FirebaseFirestore.getInstance();
         mAuth = FirebaseAuth.getInstance();
         userID = mAuth.getCurrentUser().getUid(); //preaiu ID ul de la user
         todoTaskRef = firestore.collection("users").document(userID).collection("Tasks");
+        orarCollection = firestore.collection("users").document(userID).collection("Orar"); //preiaueiau referinta de la colectia ORAR
+
+        showData();//creez lista pt adapter de materii: listaMaterii note
+        //set adapter pt spinner, the adapter holds the values for the spinner
+        adapter = new ArrayAdapter<String>(getContext(),android.R.layout.simple_spinner_item, listaMateriiOrar);
+        adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+        spinnerMaterii.setAdapter(adapter);
+        spinnerMaterii.setOnItemSelectedListener( this);
+
 
 
         boolean isUpdate = false; //check if the user wants to edit the task or save it for the first time
@@ -103,9 +194,25 @@ public class Add_new_task extends BottomSheetDialogFragment {
             String task = bundle.getString("task");
             id = bundle.getString("id");
             dueDateUpdate = bundle.getString("due");
+            dificultateUpdate= Integer.parseInt(bundle.getString("dificultate"));
+
+
+            if(dificultateUpdate==1){
+                radioButton1_usor.setChecked(true);
+            } else if(dificultateUpdate==2){
+                radioButton2_mediu.setChecked(true);
+            } else radioButton3_dificil.setChecked(true);
 
             mTaskEdit.setText(task);
             setDueDate.setText(dueDateUpdate);
+
+            // selectare spinner
+            materieDenumire=bundle.getString("materie")  ;
+            for(int i=0; i<listaMateriiOrar.size();i++) {
+                if(listaMateriiOrar.get(i).equals(materieDenumire)){
+                    spinnerMaterii.setSelection(i);
+                }
+            }
 
             //disable the button save
             if (task.length() > 0 || dueDateUpdate.length() > 0) {
@@ -168,9 +275,10 @@ public class Add_new_task extends BottomSheetDialogFragment {
 
                 String task = mTaskEdit.getText().toString();
 
+
                 if (finalIsUpdate) {
                     //asta se executa cand este editatat taskul
-                    todoTaskRef.document(id).update("task", task, "due", dueDate);
+                    todoTaskRef.document(id).update("task", task, "due", dueDate,"materie",materieDenumire,"dificultate",dificultate);
                     Toast.makeText(context, "Task Updated", Toast.LENGTH_SHORT).show();
                 } else {
                     //asta se executa cand userul salveza taskul pt prima data
@@ -184,6 +292,8 @@ public class Add_new_task extends BottomSheetDialogFragment {
                         taskMap.put("due", dueDate);
                         taskMap.put("status", 0);
                         taskMap.put("time", FieldValue.serverTimestamp());
+                        taskMap.put("materie",materieDenumire);
+                        taskMap.put("dificultate",dificultate); //1 , 2 sau 3
 
                         todoTaskRef.add(taskMap)
                                 .addOnCompleteListener(new OnCompleteListener<DocumentReference>() {
@@ -253,4 +363,19 @@ public class Add_new_task extends BottomSheetDialogFragment {
     }
 
 
+    @Override
+    public void onItemSelected(AdapterView<?> adapterView, View view, int i, long l) {
+        isItemSelected = true;
+        this.materieDenumire=listaMateriiOrar.get(i);
+        Toast.makeText(getContext(), this.materieDenumire, Toast.LENGTH_SHORT).show();
+
+    }
+
+    @Override
+    public void onNothingSelected(AdapterView<?> adapterView) {
+        if (!isItemSelected) {
+            Toast.makeText(requireContext(), "Nothing selected", Toast.LENGTH_SHORT).show();
+
+        }
+    }
 }
