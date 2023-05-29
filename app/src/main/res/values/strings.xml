@@ -38,6 +38,9 @@
     <string name="data_de_finalizare">Data de finalizare</string>
     <string name="salveaza">Salveaza</string>
     <string name="introduce_obiective_de_atins">Introdu obiective de atins!</string>
+    <string name="pie_chart">Pie Chart</string>
+    <string name="bar_chart">Bar Chart</string>
+    <string name="regresie">Regresie</string>
 
 
 </resources>

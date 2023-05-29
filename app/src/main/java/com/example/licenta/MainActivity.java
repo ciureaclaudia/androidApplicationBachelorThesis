@@ -15,7 +15,6 @@ import android.view.View;
 import android.widget.TextView;
 import android.widget.Toast;
 
-import com.example.licenta.BottomNavigationView.FragmentNote.V2.ANote;
 import com.example.licenta.BottomNavigationView.HomeFragment;
 import com.example.licenta.BottomNavigationView.FragmentNote.NoteFragment;
 import com.example.licenta.BottomNavigationView.OrarFragment.NesterRecyclerViewOrar.AOrar;
@@ -24,7 +23,7 @@ import com.example.licenta.BottomNavigationView.ProfileFragment.ProfileFragment;
 import com.example.licenta.NavigationDrawer.toDoList.AProgres;
 import com.example.licenta.NavigationDrawer.toDoList.ProgresFragment;
 
-import com.example.licenta.NavigationDrawer.GraficFragment;
+import com.example.licenta.NavigationDrawer.GraficFragment.GraficFragment;
 import com.example.licenta.NavigationDrawer.HartaFragment;
 import com.google.android.material.appbar.MaterialToolbar;
 import com.google.android.material.bottomnavigation.BottomNavigationView;

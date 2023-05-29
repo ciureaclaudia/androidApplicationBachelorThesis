@@ -28,6 +28,7 @@
         android:layout_marginTop="49dp"
         android:layout_marginEnd="10dp"
         android:layout_marginBottom="10dp"
+        android:fontFamily="sans-serif-condensed-medium"
         android:text="@string/introduce_obiective_de_atins"
         android:textColor="@color/white"
         android:textSize="20dp"

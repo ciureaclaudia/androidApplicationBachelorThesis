@@ -195,7 +195,7 @@ public class AProgres extends AppCompatActivity implements OnDialogCloseListener
 
 
     public void showData(){
-        Toast.makeText(AProgres.this, "APELATA CITIREA", Toast.LENGTH_SHORT).show();
+//        Toast.makeText(AProgres.this, "APELATA CITIREA", Toast.LENGTH_SHORT).show();
         query= TodoTaskRef.orderBy("time", Query.Direction.DESCENDING);
         listenerRegistration=query.addSnapshotListener(new EventListener<QuerySnapshot>() {
             @SuppressLint("NotifyDataSetChanged")

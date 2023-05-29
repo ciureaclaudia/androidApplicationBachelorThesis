@@ -4,11 +4,9 @@ import static android.content.ContentValues.TAG;
 
 import android.app.Dialog;
 import android.content.Context;
-import android.content.SharedPreferences;
 import android.os.Bundle;
 
 import androidx.annotation.NonNull;
-import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
@@ -26,17 +24,13 @@ import android.widget.LinearLayout;
 import android.widget.Spinner;
 import android.widget.Toast;
 
-import com.example.licenta.BottomNavigationView.FragmentNote.V2.MaterieModel;
-import com.example.licenta.BottomNavigationView.OrarFragment.NesterRecyclerViewOrar.AOrar;
 import com.example.licenta.BottomNavigationView.OrarFragment.NesterRecyclerViewOrar.MaterieOrar;
-import com.example.licenta.BottomNavigationView.OrarFragment.NesterRecyclerViewOrar.ParentModelClass;
 import com.example.licenta.R;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.android.gms.tasks.Task;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
-import com.google.common.reflect.TypeToken;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.firestore.CollectionReference;
 import com.google.firebase.firestore.DocumentReference;
@@ -45,7 +39,7 @@ import com.google.firebase.firestore.ListenerRegistration;
 import com.google.firebase.firestore.Query;
 import com.google.firebase.firestore.QueryDocumentSnapshot;
 import com.google.firebase.firestore.QuerySnapshot;
-import com.google.gson.Gson;
+
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -339,86 +333,6 @@ public class NoteFragment extends Fragment implements  RecyclerViewAdapterMateri
     private void removeView(View view) {
         layout_listaNote.removeView(view);
     }
-
-    /*
-    @Override
-    public void onEditClick(int position) {
-        //------------------------------------------nu merge
-
-        //se deschide alertDialog -trebuie sa aiba datele in el
-        Dialog dialog = new Dialog(getContext());
-        dialog.setContentView(R.layout.alertdialog_add);
-
-
-        Button btn_saveNote = dialog.findViewById(R.id.btn_saveNote);
-        Button btn_add = dialog.findViewById(R.id.btn_add);
-        layout_listaNote = dialog.findViewById(R.id.layout_listaNote);
-
-
-        materiePreluata = materii.get(position); //asta e obiectul pe care am apasat
-        int index = materii.indexOf(materiePreluata); //salvez pozitia obiectului pe care am apasat
-
-
-        for (int i = 0; i < materiePreluata.getListanote().size(); i++) {
-            addView();
-//            View notaview = layout_listaNote.getChildAt(i); //reference to the parent view group
-            EditText editTextNota = new EditText(getContext());
-            editTextNota.setText(materiePreluata.getListanote().toString());
-            layout_listaNote.addView(editTextNota);
-//            listaNoteINDIVIDUALA.add(Float.valueOf(editTextNota.getText().toString()));
-        }
-
-
-//        if(listaNoteINDIVIDUALA!=null){
-//            for (int i = 0; i < materiePreluata.getListanote().size(); i++) {
-//
-////            View notaview = layout_listaNote.getChildAt(i); //reference to the parent view group
-//                EditText editTextNota = new EditText(getContext());
-//                editTextNota.setText(materiePreluata.getListanote().toString());
-//                layout_listaNote.addView(editTextNota);
-////            listaNoteINDIVIDUALA.add(Float.valueOf(editTextNota.getText().toString()));
-//            }
-//        }
-
-
-//        for (int i = 0; i < layout_listaNote.getChildCount(); i++) {
-
-//            if (!editTextNota.getText().toString().equals("")) {
-//                listaNoteINDIVIDUALA.add(Float.valueOf(editTextNota.getText().toString()));
-////                listaNote.add(Float.valueOf(editTextNota.getText().toString()));
-//            } else {
-//                listaNoteINDIVIDUALA.clear();
-//            }
-//        }
-
-
-        btn_add.setOnClickListener(view2 -> {
-            addView();
-        });
-
-        btn_saveNote.setOnClickListener(view2 -> {
-
-            if (creareListaNote()) {
-
-//                if (!edtNameMaterie.getText().toString().equals("")) {
-//                    Materie materie = new Materie(edtNameMaterie.getText().toString(), listaNoteINDIVIDUALA);
-//                    materii.set(index, materie);
-//                    adapterMaterii.notifyItemChanged(index);
-//                } else {
-//                    Toast.makeText(getContext(), "Nume materie lipsa!", Toast.LENGTH_SHORT).show();
-//                }
-//            } else {
-//                Toast.makeText(getContext(), "Introdu nota!", Toast.LENGTH_SHORT).show();
-            }
-            dialog.dismiss();
-        });
-
-
-        dialog.show();
-
-    }
-
-     */
 
     @Override
     public void onEditClick(int position) {

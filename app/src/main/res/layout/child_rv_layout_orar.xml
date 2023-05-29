@@ -23,7 +23,9 @@
                 android:layout_gravity="center"
                 android:layout_marginTop="-70dp"
                 android:text="@string/materie"
-                android:textSize="16dp"
+                android:fontFamily="serif"
+                android:textSize="14dp"
+                android:textColor="@color/lavander"
                 android:textStyle="bold" />
 
 
@@ -34,6 +36,7 @@
                 android:layout_marginTop="50dp"
                 android:layout_marginStart="17dp"
                 android:padding="2dp"
+                android:fontFamily="serif"
                 android:textStyle="bold"
                 android:text="10:56" />
 
@@ -44,6 +47,7 @@
                 android:layout_marginTop="50dp"
                android:layout_marginStart="70dp"
                 android:padding="2dp"
+                android:fontFamily="serif"
                 android:textStyle="bold"
                 android:text="11:56" />
             <TextView
@@ -61,6 +65,7 @@
                 android:layout_marginStart="37dp"
                 android:textStyle="bold"
                 android:padding="2dp"
+                android:fontFamily="serif"
                 android:text="Salaaaaa" />
             <TextView
                 android:layout_width="wrap_content"
@@ -77,6 +82,7 @@
                 android:layout_marginStart="37dp"
                 android:textStyle="bold"
                 android:padding="2dp"
+                android:fontFamily="serif"
                 android:text="Profesor" />
 
         </androidx.cardview.widget.CardView>

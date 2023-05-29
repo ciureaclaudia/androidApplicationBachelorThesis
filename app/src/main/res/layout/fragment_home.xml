@@ -4,7 +4,8 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@color/lavander2"
+    android:background="@drawable/gradient_list"
+    android:id="@+id/mainLayout"
     tools:context=".BottomNavigationView.HomeFragment">
 
     <TextView
@@ -26,7 +27,7 @@
         android:text="Welcome back"
         android:background="@drawable/border_cerc"
         android:backgroundTint="@color/lavander3"
-        android:padding="60dp"
+        android:padding="40dp"
         style="@style/CoolWelcomeTextStyle"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"

@@ -17,6 +17,8 @@
                 android:text="Titlu"
                 android:textColor="@color/lavander"
                 android:textSize="21sp"
+                android:fontFamily="serif"
+                android:gravity="center"
                 android:textStyle="italic" />
 
             <androidx.recyclerview.widget.RecyclerView

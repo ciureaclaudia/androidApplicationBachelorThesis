@@ -6,5 +6,6 @@
         android:title="Editeaza" />
     <item
         android:id="@+id/meniu_sterge"
+
         android:title="Sterge" />
 </menu>
