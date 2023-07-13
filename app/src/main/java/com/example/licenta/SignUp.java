@@ -236,10 +236,7 @@ public class SignUp extends AppCompatActivity {
                         }
                     });
 
-
-
                     FirebaseUser firebaseUser= mAuth.getCurrentUser();
-
                     //Send verification email
                     firebaseUser.sendEmailVerification();
 

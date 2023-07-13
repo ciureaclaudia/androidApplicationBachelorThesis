@@ -129,13 +129,11 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
 
             textViewEmail.setText(user.getEmail());
 
-            //get dao poza
+
             FirebaseFirestore db = FirebaseFirestore.getInstance();
             FirebaseAuth mAuth = FirebaseAuth.getInstance();
             String userID = mAuth.getCurrentUser().getUid();
-
             DocumentReference documentReference = db.collection("users").document(userID);
-
                documentReference.addSnapshotListener(this, new EventListener<DocumentSnapshot>() {
                    @Override
                    public void onEvent(@Nullable DocumentSnapshot value, @Nullable FirebaseFirestoreException error) {
@@ -171,10 +169,10 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
                 getSupportFragmentManager().beginTransaction().replace(R.id.container,homeFragment).addToBackStack(null).commit(); //replace the container with the home fragment
 
                 break;
-            case R.id.nav_harta:
-                getSupportFragmentManager().beginTransaction().replace(R.id.container,hartaFragment).addToBackStack(null).commit(); //replace the container with the home fragment
+//            case R.id.nav_harta:
+//                getSupportFragmentManager().beginTransaction().replace(R.id.container,hartaFragment).addToBackStack(null).commit(); //replace the container with the home fragment
 
-                break;
+//                break;
             case R.id.nav_grafic:
                 getSupportFragmentManager().beginTransaction().replace(R.id.container,graficFragment).addToBackStack(null).commit(); //replace the container with the home fragment
 

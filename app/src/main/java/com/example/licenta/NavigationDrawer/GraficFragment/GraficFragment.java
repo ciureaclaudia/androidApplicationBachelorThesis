@@ -4,17 +4,26 @@ import android.annotation.SuppressLint;
 import android.app.AlertDialog;
 import android.content.DialogInterface;
 import android.graphics.Color;
+import android.os.Build;
 import android.os.Bundle;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
+import androidx.core.view.MenuItemCompat;
 import androidx.fragment.app.Fragment;
 
 import android.util.Log;
 import android.view.LayoutInflater;
+import android.view.Menu;
+import android.view.MenuInflater;
+import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.AdapterView;
+import android.widget.ArrayAdapter;
 import android.widget.Button;
+import android.widget.ListView;
+import android.widget.SearchView;
 import android.widget.Toast;
 
 import com.example.licenta.BottomNavigationView.FragmentNote.Materie;
@@ -56,6 +65,7 @@ import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Comparator;
 import java.util.HashMap;
+import java.util.HashSet;
 import java.util.List;
 import java.util.Map;
 
@@ -98,11 +108,25 @@ public class GraficFragment extends Fragment {
     int countNotOk;
     int taskTotalBifat;
 
+    //  pt searchbar
+    // List View object
+    ListView listView_searchBar;
+    // Define array adapter for ListView
+    ArrayAdapter<String> adapterSearBar;
+    // Define array List for List View data
+    ArrayList<String> mylistSearBar;
+
+    ArrayList<String> materiiDenumireNote;
+    ArrayList<String> materiiDenumireToDo;
+
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.fragment_grafic, container, false);
         materiiNote = new ArrayList<>();
         toDoList = new ArrayList<>();
+        mylistSearBar = new ArrayList<>();
+        materiiDenumireNote = new ArrayList<>();
+        materiiDenumireToDo = new ArrayList<>();
         return view;
     }
 
@@ -121,6 +145,7 @@ public class GraficFragment extends Fragment {
         btn_regresie = view.findViewById(R.id.btn_regresie);
         pieChart = view.findViewById(R.id.pieChart);
         barChart = view.findViewById(R.id.barChart);
+        listView_searchBar = view.findViewById(R.id.listView_regresie);
 
         //preaiu notele din BD
         if (materiiNote.size() == 0) {
@@ -132,8 +157,6 @@ public class GraficFragment extends Fragment {
                         String materieID = queryDocumentSnapshots1.getId();
                         materie.setId(materieID);
                         materiiNote.add(materie);
-
-//                        Toast.makeText(getContext(), materii.get(0).getDenumire(), Toast.LENGTH_SHORT).show();
                     }
                 }
             }).addOnFailureListener(new OnFailureListener() {
@@ -179,28 +202,13 @@ public class GraficFragment extends Fragment {
                 return model1.getDue().compareTo(model2.getDue());
             }
         };
-
         // Sort the list using the custom comparator
         Collections.sort(toDoList, comparator);
 
-//        query= todoTaskRef.orderBy("time", Query.Direction.DESCENDING);
-//        listenerRegistration=query.addSnapshotListener(new EventListener<QuerySnapshot>() {
-//            @SuppressLint("NotifyDataSetChanged")
-//            @Override
-//            public void onEvent(@Nullable QuerySnapshot value, @Nullable FirebaseFirestoreException error) {
-//                for (DocumentChange documentChange: value.getDocumentChanges()){
-//                    if(documentChange.getType()==DocumentChange.Type.ADDED){
-//                        String id=documentChange.getDocument().getId();
-//                        ToDoModel toDoModel=documentChange.getDocument().toObject(ToDoModel.class).withId(id);
-//                        toDoList.add(toDoModel);
-//                    }
-//                }
-//                listenerRegistration.remove();
-//            }
-//        });
-
 
         btn_pieChart.setOnClickListener(view1 -> {
+            listView_searchBar.setVisibility(View.GONE);
+            setHasOptionsMenu(false);
 
             ArrayList<PieEntry> visitors = new ArrayList<>();
 
@@ -237,75 +245,83 @@ public class GraficFragment extends Fragment {
         });
 
         btn_barChart.setOnClickListener(view1 -> {
-                    // Clear any existing data
+            // Clear any existing data
             pieChart.setVisibility(View.GONE);
-                    barChart.clear();
+            listView_searchBar.setVisibility(View.GONE);
+            setHasOptionsMenu(false);
 
-                    // Create lists for storing bar entries and labels
-                    List<BarEntry> entries = new ArrayList<>();
-                    List<String> labels = new ArrayList<>();
+            barChart.clear();
 
-                    // Create a map to track the total task counts for each difficulty level
-                    Map<String, float[]> taskCountsMap = new HashMap<>();
+            // Create lists for storing bar entries and labels
+            List<BarEntry> entries = new ArrayList<>();
+            List<String> labels = new ArrayList<>();
 
-                    // Iterate through the toDoList and calculate task counts for each materie and difficulty level
-                    for (ToDoModel model : toDoList) {
-                        String materie = model.getMaterie();
-                        int dificultate = model.getDificultate()-1;
+            // Create a map to track the total task counts for each difficulty level
+            Map<String, float[]> taskCountsMap = new HashMap<>();
 
-                        float[] taskCounts = new float[0];
-                        if (android.os.Build.VERSION.SDK_INT >= android.os.Build.VERSION_CODES.N) {
-                            taskCounts = taskCountsMap.getOrDefault(materie, new float[3]);
-                        }
-                        taskCounts[dificultate]++;
+            // Iterate through the toDoList and calculate task counts for each materie and difficulty level
+            for (ToDoModel model : toDoList) {
+                String materie = model.getMaterie();
+                int dificultate = model.getDificultate() - 1;
 
-                        taskCountsMap.put(materie, taskCounts);
-                    }
+                float[] taskCounts = new float[0];
+                if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.N) {
+                    taskCounts = taskCountsMap.getOrDefault(materie, new float[3]);
+                }
+                assert taskCounts != null;
+                taskCounts[dificultate]++;
 
-                    // Generate bar entries and labels based on the task counts
-                    int barIndex = 0;
-                    for (Map.Entry<String, float[]> entry : taskCountsMap.entrySet()) {
-                        String materie = entry.getKey();
-                        float[] taskCounts = entry.getValue();
+                taskCountsMap.put(materie, taskCounts);
+            }
 
-                        // Calculate the height for each difficulty level
-                        float easyHeight = taskCounts[0] * 5f;
-                        float mediumHeight = taskCounts[1] * 10f;
-                        float hardHeight = taskCounts[2] * 15f;
+            // Generate bar entries and labels based on the task counts
+            int barIndex = 0;
+            for (Map.Entry<String, float[]> entry : taskCountsMap.entrySet()) {
+                String materie = entry.getKey();
+                float[] taskCounts = entry.getValue();
 
-                        // Create a stacked bar entry
-                        BarEntry barEntry = new BarEntry(barIndex, new float[]{easyHeight, mediumHeight, hardHeight});
-                        entries.add(barEntry);
+                // Calculate the height for each difficulty level
+                float easyHeight = taskCounts[0] * 5f;
+                float mediumHeight = taskCounts[1] * 10f;
+                float hardHeight = taskCounts[2] * 15f;
 
-                        // Add the materie as a label
-                        labels.add(materie);
+                // Create a stacked bar entry
+                BarEntry barEntry = new BarEntry(barIndex, new float[]{easyHeight, mediumHeight, hardHeight});
+                entries.add(barEntry);
 
-                        barIndex++;
-                    }
+                // Add the materie as a label
+                labels.add(materie);
+                barIndex++;
+            }
 
-                    // Create a stacked bar dataset
-                    BarDataSet barDataSet = new BarDataSet(entries, "");
-                    barDataSet.setColors(ColorTemplate.JOYFUL_COLORS);
-                    barDataSet.setValueTextSize(10f);
-                    barDataSet.setStackLabels(new String[]{"Easy", "Medium", "Hard"});
+            // Create a stacked bar dataset
+            BarDataSet barDataSet = new BarDataSet(entries, "");
+//            barDataSet.setColors(ColorTemplate.JOYFUL_COLORS);
+            barDataSet.setValueTextSize(10f);
+            barDataSet.setStackLabels(new String[]{"Easy", "Medium", "Hard"});
+// Define an array of custom colors for the bars
+            int[] colors = new int[]{Color.GREEN, Color.YELLOW, Color.RED};
 
-                    // Create a bar data object with the dataset
-                    BarData barData = new BarData(barDataSet);
+// Set the colors for the bars in the dataset
+            barDataSet.setColors(colors);
 
-                    // Configure the X-axis and set labels
-                    XAxis xAxis = barChart.getXAxis();
-                    xAxis.setValueFormatter(new IndexAxisValueFormatter(labels));
-                    xAxis.setPosition(XAxis.XAxisPosition.BOTTOM);
+            // Create a bar data object with the dataset
+            BarData barData = new BarData(barDataSet);
+
+            // Configure the X-axis and set labels
+            XAxis xAxis = barChart.getXAxis();
+            xAxis.setValueFormatter(new IndexAxisValueFormatter(labels));
+            xAxis.setPosition(XAxis.XAxisPosition.BOTTOM);
 //                    xAxis.setTextSize(5f);
-                    xAxis.setGranularity(1f);
-                    xAxis.setDrawGridLines(false);
+            xAxis.setGranularity(1f);
+            xAxis.setDrawGridLines(false);
 
-                    // Configure the Y-axis
-                    YAxis yAxisLeft = barChart.getAxisLeft();
-                    yAxisLeft.setAxisMinimum(0f);
+            // Configure the Y-axis
+            YAxis yAxisLeft = barChart.getAxisLeft();
+            yAxisLeft.setAxisMinimum(0f);
 
-                    // Hide the right Y-axis
-                    barChart.getAxisRight().setEnabled(false);
+            // Hide the right Y-axis
+            barChart.getAxisRight().setEnabled(false);
 
             // Set the bar data to the chart and invalidate it to refresh the view
             barChart.setData(barData);
@@ -313,7 +329,6 @@ public class GraficFragment extends Fragment {
             barChart.animateY(1500);
             barChart.setVisibility(View.VISIBLE);
         });
-
 
 
 
@@ -399,11 +414,105 @@ public class GraficFragment extends Fragment {
 
 
  */
+
         btn_regresie.setOnClickListener(view1 -> {
+            pieChart.setVisibility(View.GONE);
+            barChart.setVisibility(View.GONE);
+            listView_searchBar.setVisibility(View.VISIBLE);
+            setHasOptionsMenu(true);
+
+            //searchbar
+            //populez mylistSearBar
+            for (Materie m : materiiNote)
+                mylistSearBar.add(m.getDenumire());
+            for (ToDoModel mm : toDoList)
+                mylistSearBar.add(mm.getMaterie());
+
+            // Convert the list to a set to remove duplicates
+            HashSet<String> set = new HashSet<>(mylistSearBar);
+
+            // Create a new list from the set
+            mylistSearBar = new ArrayList<>(set);
+
+            // Set adapter to ListView
+            adapterSearBar = new ArrayAdapter<>(getContext(), android.R.layout.simple_list_item_1, mylistSearBar);
+            listView_searchBar.setAdapter(adapterSearBar);
+
+            listView_searchBar.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+                @Override
+                public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+                    // Get the selected item from the ListView
+                    String selectedItem = (String) parent.getItemAtPosition(position);
+
+                    // Create an AlertDialog
+                    AlertDialog.Builder builder = new AlertDialog.Builder(getContext());
+                    builder.setTitle("Confirmare")
+                            .setMessage("Alegi sa continui cu materia " + selectedItem + "?")
+                            .setPositiveButton("Da", new DialogInterface.OnClickListener() {
+                                @Override
+                                public void onClick(DialogInterface dialog, int which) {
+                                    // User clicked Yes, perform desired actions
+
+
+                                    Toast.makeText(getContext(), "Proceeding with " + selectedItem, Toast.LENGTH_SHORT).show();
+                                }
+                            })
+                            .setNegativeButton("Nu", new DialogInterface.OnClickListener() {
+                                @Override
+                                public void onClick(DialogInterface dialog, int which) {
+                                    // User clicked No, perform desired actions or dismiss the dialog
+                                    dialog.dismiss();
+                                }
+                            });
+                    // Show the AlertDialog
+                    AlertDialog alertDialog = builder.create();
+                    alertDialog.show();
+                }
+            });
+
 
         });
     }
-//
+
+    @Override
+    public void onCreateOptionsMenu(Menu menu, MenuInflater inflater) {
+        // Inflate menu with items using MenuInflator
+        inflater.inflate(R.menu.regresie_searchbar_menu, menu);
+
+        // Initialise menu item search bar
+        // with id and take its object
+        MenuItem searchViewItem = menu.findItem(R.id.search_bar);
+        SearchView searchView = (SearchView) MenuItemCompat.getActionView(searchViewItem);
+
+        // attach setOnQueryTextListener
+        // to search view defined above
+        searchView.setOnQueryTextListener(new SearchView.OnQueryTextListener() {
+            // Override onQueryTextSubmit method which is called when submit query is searched
+            @Override
+            public boolean onQueryTextSubmit(String query) {
+                // If the list contains the search query, then filter the adapter
+                // using the filter method with the query as its argument
+                if (mylistSearBar.contains(query)) {
+                    adapterSearBar.getFilter().filter(query);
+                } else {
+                    // Search query not found in List View
+                    Toast.makeText(getContext(), "Not found", Toast.LENGTH_LONG).show();
+                }
+                return false;
+            }
+
+            // This method is overridden to filter the adapter according
+            // to a search query when the user is typing search
+            @Override
+            public boolean onQueryTextChange(String newText) {
+                adapterSearBar.getFilter().filter(newText);
+                return false;
+            }
+        });
+        super.onCreateOptionsMenu(menu, inflater);
+    }
+
+
     void calculateMetric() {
 //        double metricc = 0.0;
 //        HashMap<String, Double> hashMap = new HashMap<>();
@@ -413,10 +522,10 @@ public class GraficFragment extends Fragment {
         //todoList si materiiNote
 
         for (ToDoModel mm : toDoList) {
-            countTaskHard=0;
-            countTaskEasy=0;
-            countTaskMedium=0;
-            countNotOk=0;
+            countTaskHard = 0;
+            countTaskEasy = 0;
+            countTaskMedium = 0;
+            countNotOk = 0;
             barHeight = 0f;
             if (mm.getStatus() == 1) { //daca e bifat
                 if (mm.getDificultate() == 0) {
@@ -430,11 +539,11 @@ public class GraficFragment extends Fragment {
                     countTaskHard++;
                 }
             } else {
-                barHeight=5f;
+                barHeight = 5f;
                 countNotOk++;
             }
             hashMap.put(mm.getMaterie(), barHeight);
-            taskTotalBifat=countTaskEasy+countTaskMedium+countNotOk+countTaskHard;
+            taskTotalBifat = countTaskEasy + countTaskMedium + countNotOk + countTaskHard;
             listaTotalBifate.add(taskTotalBifat);
         }
 
@@ -484,7 +593,6 @@ public class GraficFragment extends Fragment {
 //        }
 //
 //    }
-
 
 
 }

@@ -10,10 +10,10 @@
             android:icon="@drawable/ic_home"
             android:title="@string/home" />
 
-        <item
-            android:id="@+id/nav_harta"
-            android:icon="@drawable/ic_map"
-            android:title="@string/harta" />
+<!--        <item-->
+<!--            android:id="@+id/nav_harta"-->
+<!--            android:icon="@drawable/ic_map"-->
+<!--            android:title="@string/harta" />-->
 
         <item
             android:id="@+id/nav_grafic"
